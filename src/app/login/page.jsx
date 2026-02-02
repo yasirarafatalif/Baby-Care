@@ -5,6 +5,7 @@ import React from 'react';
 import { signIn } from "next-auth/react"
 import toast from 'react-hot-toast';
 import Swal from 'sweetalert2';
+import GoogleLogInButton from '@/Components/Items/GoogleLogInButton';
 
 const LoginPage = () => {
  const handelSubmit = async (e) => {
@@ -29,6 +30,12 @@ const LoginPage = () => {
  
   // toast.success('Login Successful');
 };
+
+const googleLogin = () => {
+  
+  signIn("google", { callbackUrl: "/" });
+}
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 px-4 transition-colors duration-300">
@@ -98,6 +105,7 @@ const LoginPage = () => {
             Sign In
           </button>
         </form>
+       
 
         {/* Footer */}
         <Link href="/register" className="mt-8 text-center text-sm text-gray-600 dark:text-gray-400">
@@ -106,7 +114,15 @@ const LoginPage = () => {
             Register
           </span>
         </Link>
+        <div className='mt-3'>
+        <GoogleLogInButton></GoogleLogInButton>
       </div>
+
+      </div>
+
+       
+      
+    
     </div>
   );
 };

@@ -13,8 +13,8 @@ export async function proxy(req) {
 
   const isAdmin = token?.role === "admin";
   const isPrivate = privateRoutes.some((route) => reqPath.startsWith(route));
-  // const isAdminRoute = adminRoutes.some((route) => reqPath.startsWith(route));
-  console.log(isPrivate)
+  const isAdminRoute = adminRoutes.some((route) => reqPath.startsWith(route));
+  // console.log(isPrivate)
   if (!isAuthenticated && isPrivate) {
      const loginUrl = new URL("/login", req.url);
     loginUrl.searchParams.set("callbackUrl", reqPath);

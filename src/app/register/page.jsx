@@ -1,5 +1,6 @@
 "use client";
 import { postUser } from '@/actions/server/auth';
+import GoogleLogInButton from '@/Components/Items/GoogleLogInButton';
 import SocialLogin from '@/Components/ui/SocialLogin';
 import React from 'react';
 import Swal from 'sweetalert2';
@@ -126,7 +127,8 @@ const RegisterPage = () => {
         </div>
 
         {/* Social Register (Optional) */}
-        <SocialLogin></SocialLogin>
+        <GoogleLogInButton></GoogleLogInButton>
+        {/* <SocialLogin></SocialLogin> */}
 
         {/* Footer */}
         <p className="mt-8 text-center text-sm text-gray-600 dark:text-gray-400">
