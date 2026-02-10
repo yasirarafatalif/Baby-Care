@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Our Services | Care.xyz",
+  title: "Our Services - CareHub",
   description: "Trusted baby sitting and elderly care services"
 };
 
@@ -25,7 +25,7 @@ const ServicesPage = async () => {
             className="bg-white rounded-2xl shadow hover:shadow-lg transition"
           >
             <Image
-              src={service.image}
+              src={service?.image}
               alt={service.name}
               width={400}
               height={250}
@@ -51,7 +51,7 @@ const ServicesPage = async () => {
               </div>
 
               <Link
-                href={`/service/${service.slug}`}
+                href={`/services/${service._id}`}
                 className="block text-center bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-xl font-medium"
               >
                 View Details

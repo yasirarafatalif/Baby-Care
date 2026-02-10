@@ -18,14 +18,14 @@ const Navbar = ({ session }) => {
   const user = session?.user || null;
   const navLinks = [
     { name: "Home", href: "/", icon: <FaHome /> },
-    { name: "Shop", href: "/shop", icon: <FaShoppingBag /> },
+    { name: "Services", href: "/services", icon: <FaShoppingBag /> },
     { name: "About", href: "/about", icon: <FaInfoCircle /> },
     { name: "Contact", href: "/contact", icon: <FaEnvelope /> },
   ];
 
   return (
     <nav className="sticky top-0 z-50 w-full bg-white/70 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className=" mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Mobile Menu & Logo */}
           <div className="flex items-center gap-2">
@@ -49,7 +49,7 @@ const Navbar = ({ session }) => {
                 ))}
               </ul>
             </div>
-            <Logo /> {/* Tomar Logo Component */}
+            <Logo />
           </div>
 
           {/* Center: Desktop Nav Links */}
@@ -58,19 +58,21 @@ const Navbar = ({ session }) => {
               <Link
                 key={link.name}
                 href={link.href}
-                className="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                className="relative flex items-center gap-2 text-lg font-medium text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 group"
               >
-                {link.name}
+               {link.icon} {link.name}
+                {/* Hover Underline */}
+                <span className="absolute left-0 bottom-[-2px] w-0 h-[2px] bg-blue-600 dark:bg-blue-400 transition-all duration-300 group-hover:w-full"></span>
               </Link>
             ))}
           </div>
 
           {/* End: ThemeToggle & User Section */}
-          <div className="flex items-center gap-4">
-            <ThemeToggle />
+          <div className="flex items-center gap-4 hover:cursor-pointer">
+           
 
             {user ? (
-              <div className="relative group">
+              <div className="relative group ">
                 <button className="flex items-center gap-2 p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition">
                   {/* <FaRegCircleUser  /> */}
                   {user.image ? (
@@ -89,14 +91,19 @@ const Navbar = ({ session }) => {
                 </button>
 
                 {/* Profile Dropdown */}
-                <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl shadow-xl opacity-0 scale-95 pointer-events-none group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto transition-all duration-200 origin-top-right z-50 overflow-hidden">
+                <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl shadow-xl opacity-0 scale-95 pointer-events-none group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto transition-all duration-400 origin-top-right z-50 overflow-hidden">
                   <div className="px-4 py-3 border-b border-gray-100 dark:border-gray-800">
                     <p className="text-xs text-gray-500">Welcome,</p>
                     <p className="text-sm font-bold truncate">{user.name}</p>
                   </div>
                   <div className="p-1">
                     {/* 01708384876 */}
+                    <div>
+                      <ThemeToggle />
+                      
 
+                    </div>
+                     
 
                     <Link
                       href="/dashboard"
@@ -119,27 +126,22 @@ const Navbar = ({ session }) => {
             ) : (
               <div className="flex gap-3">
                 {/* Login – Primary */}
+                {/* Login – Elevated Glass Effect */}
                 <Link
                   href="/login"
-                  className="btn btn-sm btn-primary rounded-full px-6 normal-case
-    shadow-md hover:shadow-lg transition-all"
+                  className="btn btn-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-xl px-8 normal-case border-none shadow-[0_4px_14px_0_rgb(0,0,0,0.1)] hover:shadow-[0_6px_20px_rgba(93,93,93,0.23)] hover:scale-105 active:scale-95 transition-all duration-300 ring-1 ring-slate-200 dark:ring-slate-700"
                 >
                   Login
                 </Link>
-               
-                
 
-                {/* Register – Outline */}
+                {/* Register – Gradient Glow Effect */}
                 <Link
                   href="/register"
-                  className="btn btn-sm btn-outline btn-primary rounded-full px-6 normal-case
-    hover:bg-primary hover:text-primary-content transition-all"
+                  className="btn btn-lg bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl px-8 normal-case border-none shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:scale-105 active:scale-95 transition-all duration-300"
                 >
                   Register
                 </Link>
-                
               </div>
-              
             )}
           </div>
         </div>
