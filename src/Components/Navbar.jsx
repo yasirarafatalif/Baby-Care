@@ -13,6 +13,7 @@ import Logo from "./ui/logo";
 import LogOutButton from "./Items/LogOutButton";
 import { FaRegCircleUser } from "react-icons/fa6";
 import LogIn from "./Items/LogIn";
+import Image from "next/image";
 
 const Navbar = ({ session }) => {
   const user = session?.user || null;
@@ -76,10 +77,12 @@ const Navbar = ({ session }) => {
                 <button className="flex items-center gap-2 p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition">
                   {/* <FaRegCircleUser  /> */}
                   {user.image ? (
-                    <img
+                    <Image
+                    width={32}
+                    height={32}
                       src={user.image}
                       alt="User"
-                      className="w-8 h-8 rounded-full border border-blue-500"
+                      className=" rounded-full border border-blue-500"
                     />
                   ) : (
                     // <FaRegCircleUser  />
@@ -119,7 +122,9 @@ const Navbar = ({ session }) => {
                     </Link>
                   </div>
                   <div className="p-1 border-t border-gray-100 dark:border-gray-800">
-                    <LogOutButton />
+                    {/* <LogOutButton /> */}
+
+                    <LogOutButton></LogOutButton>
                   </div>
                 </div>
               </div>
