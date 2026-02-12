@@ -1,68 +1,82 @@
 "use client";
 
+import { insertServices } from "@/actions/server/services";
 import { useSession } from "next-auth/react";
 import React, { useRef } from "react";
+import toast from "react-hot-toast";
 
-const BookServiceButton =  ({ dayprice, hourprice }) => {
-  const assignedStaff = useRef(null);
+const BookServiceButton = ({ service }) => {
+  const bookAssign = useRef(null);
   const { data: sessionData, status } = useSession();
-
-  const handleSubmit = (e) => {
+  const dayprice = service.price.per_day || 0;
+  const hourprice = service.price.per_hour || 0;
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (status === "loading") {
+      return alert("Session loading, please wait...");
+    }
+
+    const email = sessionData?.user?.email;
+    const username = sessionData?.user?.name;
+
+    if (!email) {
+      return alert("User not logged in");
+    }
 
     const form = e.target;
 
-    const fromdayPrice = form.perDay.value;
-    const fromhourPrice = form.perHour.value;
-    const daytotal = fromdayPrice * dayprice; 
-    const hourtotal = fromhourPrice * hourprice; 
+    const fromdayPrice = Number(form.perDay.value);
+    const fromhourPrice = Number(form.perHour.value);
 
+    const daytotal = fromdayPrice * dayprice;
+    const hourtotal = fromhourPrice * hourprice;
 
     const bookingData = {
       location: form.location.value,
-      perHour: form.perHour.value,
-      perDay: form.perDay.value,
+      perHour: fromhourPrice,
+      perDay: fromdayPrice,
       totalHourCost: hourtotal,
       totalDayCost: daytotal,
-      email: sessionData?.user?.email || "No email provided", 
-      username: sessionData?.user?.name || "No username provided",
+      status: "Pending",
+      paid: "unpaid",
+      submitDate: new Date().toISOString(),
+      email,
+      username,
+      serviceId: service._id.toString(), 
+      serviceName: service.name,
+      category: service.category,
     };
 
-    console.log("Booking Data:", bookingData);
+    const res = await insertServices(bookingData);
+    if (res.success === true) {
+      toast.success("Service booked successfully!");
+    } else {
+      toast.error(res.message || "Failed to book service. Please try again.");
+    }
 
-    // এখানে চাইলে backend এ POST করতে পারো
-
-
-    assignedStaff.current.close();
-    form.reset(); 
+    bookAssign.current.close();
+    form.reset();
   };
 
   return (
     <div>
       <button
-        onClick={() => assignedStaff.current.showModal()}
+        onClick={() => bookAssign.current.showModal()}
         className="btn rounded-xl px-8 bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white transition"
       >
         Book This Service
       </button>
 
-      <dialog
-        ref={assignedStaff}
-        className="modal modal-bottom sm:modal-middle"
-      >
+      <dialog ref={bookAssign} className="modal modal-bottom sm:modal-middle">
         <div className="modal-box bg-white dark:bg-base-200 text-black dark:text-white">
-          <h3 className="font-bold text-lg mb-4">
-            Work Schedule Form
-          </h3>
+          <h3 className="font-bold text-lg mb-4">Work Schedule Form</h3>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-
             {/* Location */}
             <div>
               <label className="label">
-                <span className="label-text dark:text-white">
-                  Location
-                </span>
+                <span className="label-text dark:text-white">Location</span>
               </label>
 
               <select
@@ -83,16 +97,13 @@ const BookServiceButton =  ({ dayprice, hourprice }) => {
                 <option value="Rangpur">Rangpur</option>
                 <option value="Mymensingh">Mymensingh</option>
                 <option value="Cox's Bazar">Cox's Bazar</option>
-                
               </select>
             </div>
 
             {/* Per Hour */}
             <div>
               <label className="label">
-                <span className="label-text dark:text-white">
-                  Per Hour
-                </span>
+                <span className="label-text dark:text-white">Per Hour</span>
               </label>
               <input
                 type="number"
@@ -106,9 +117,7 @@ const BookServiceButton =  ({ dayprice, hourprice }) => {
             {/* Per Day */}
             <div>
               <label className="label">
-                <span className="label-text dark:text-white">
-                  Per Day
-                </span>
+                <span className="label-text dark:text-white">Per Day</span>
               </label>
               <input
                 type="number"
@@ -119,7 +128,6 @@ const BookServiceButton =  ({ dayprice, hourprice }) => {
               />
             </div>
 
-
             <div className="modal-action">
               <button type="submit" className="btn btn-primary">
                 Submit
@@ -128,12 +136,11 @@ const BookServiceButton =  ({ dayprice, hourprice }) => {
               <button
                 type="button"
                 className="btn"
-                onClick={() => assignedStaff.current.close()}
+                onClick={() => bookAssign.current.close()}
               >
                 Close
               </button>
             </div>
-
           </form>
         </div>
       </dialog>

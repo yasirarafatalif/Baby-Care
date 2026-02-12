@@ -71,7 +71,7 @@ const ServicesSingelPages = async ({ params,session }) => {
 
           {/* CTA */}
 
-          <BookServiceButton dayprice={service.price.per_day} hourprice={service.price.per_hour} ></BookServiceButton>
+          <BookServiceButton  service={service}  ></BookServiceButton>
           {/* <button
             className="btn rounded-xl px-8 
               bg-blue-600 hover:bg-blue-700 
