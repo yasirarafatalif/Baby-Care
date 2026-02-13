@@ -14,6 +14,7 @@ import LogOutButton from "./Items/LogOutButton";
 import { FaRegCircleUser } from "react-icons/fa6";
 import LogIn from "./Items/LogIn";
 import Image from "next/image";
+import UserMenu from "./Items/UserMenu";
 
 const Navbar = ({ session }) => {
   const user = session?.user || null;
@@ -69,86 +70,7 @@ const Navbar = ({ session }) => {
           </div>
 
           {/* End: ThemeToggle & User Section */}
-          <div className="flex items-center gap-4 hover:cursor-pointer">
-           
-
-            {user ? (
-              <div className="relative group ">
-                <button className="flex items-center gap-2 p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition">
-                  {/* <FaRegCircleUser  /> */}
-                  {user.image ? (
-                    <Image
-                    width={32}
-                    height={32}
-                      src={user.image}
-                      alt="User"
-                      className=" rounded-full border border-blue-500"
-                    />
-                  ) : (
-                    // <FaRegCircleUser  />
-                    <FaUserCircle className="text-2xl text-gray-600 dark:text-gray-400" />
-                  )}
-                  <span className="hidden md:block text-sm font-semibold">
-                    {user.name.split(" ")[0]}
-                  </span>
-                </button>
-
-                {/* Profile Dropdown */}
-                <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl shadow-xl opacity-0 scale-95 pointer-events-none group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto transition-all duration-400 origin-top-right z-50 overflow-hidden">
-                  <div className="px-4 py-3 border-b border-gray-100 dark:border-gray-800">
-                    <p className="text-xs text-gray-500">Welcome,</p>
-                    <p className="text-sm font-bold truncate">{user.name}</p>
-                  </div>
-                  <div className="p-1">
-                    {/* 01708384876 */}
-                    <div>
-                      <ThemeToggle />
-                      
-
-                    </div>
-                     
-
-                    <Link
-                      href="/dashboard"
-                      className="flex items-center gap-3 px-4 py-2 text-sm hover:bg-blue-50 dark:hover:bg-gray-800 rounded-lg transition"
-                    >
-                      <FaTachometerAlt className="text-blue-500" /> Dashboard
-                    </Link>
-                    <Link
-                      href="/profile"
-                      className="flex items-center gap-3 px-4 py-2 text-sm hover:bg-blue-50 dark:hover:bg-gray-800 rounded-lg transition"
-                    >
-                      <FaUserCircle className="text-purple-500" /> Profile
-                    </Link>
-                  </div>
-                  <div className="p-1 border-t border-gray-100 dark:border-gray-800">
-                    {/* <LogOutButton /> */}
-
-                    <LogOutButton></LogOutButton>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div className="flex gap-3">
-                {/* Login – Primary */}
-                {/* Login – Elevated Glass Effect */}
-                <Link
-                  href="/login"
-                  className="btn btn-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-xl px-8 normal-case border-none shadow-[0_4px_14px_0_rgb(0,0,0,0.1)] hover:shadow-[0_6px_20px_rgba(93,93,93,0.23)] hover:scale-105 active:scale-95 transition-all duration-300 ring-1 ring-slate-200 dark:ring-slate-700"
-                >
-                  Login
-                </Link>
-
-                {/* Register – Gradient Glow Effect */}
-                <Link
-                  href="/register"
-                  className="btn btn-lg bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl px-8 normal-case border-none shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:scale-105 active:scale-95 transition-all duration-300"
-                >
-                  Register
-                </Link>
-              </div>
-            )}
-          </div>
+          <UserMenu user={user} />
         </div>
       </div>
     </nav>

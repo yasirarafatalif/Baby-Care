@@ -8,10 +8,10 @@ export default function Home() {
   return (
    <div className="">
    {/* <Hero></Hero> */}
-   <HeroSlider></HeroSlider>
-   <Services></Services>
+   {/* <HeroSlider></HeroSlider> */}
+   {/* <Services></Services> */}
    
-    {/* <Button>Click Me</Button> */}
+    <Button>Click Me</Button>
    </div>
   );
 }

@@ -5,7 +5,7 @@ import ServiceSingleSkeleton from "./loading";
 import Image from "next/image";
 import BookServiceButton from "@/Components/Items/BookServiceButton";
 
-const ServicesSingelPages = async ({ params,session }) => {
+const ServicesSingelPages = async ({ params }) => {
   const { id } = await params;
 
   if (!ObjectId.isValid(id)) {
@@ -19,6 +19,13 @@ const ServicesSingelPages = async ({ params,session }) => {
   if (!service) {
     return <ServiceSingleSkeleton />;
   }
+
+  
+const serializedService = {
+  ...service,
+  _id: service?._id.toString(), 
+
+};
 
   return  (
     <div className="max-w-7xl mx-auto px-4 py-10 text-slate-900 dark:text-slate-100">
@@ -71,14 +78,8 @@ const ServicesSingelPages = async ({ params,session }) => {
 
           {/* CTA */}
 
-          <BookServiceButton  service={service}  ></BookServiceButton>
-          {/* <button
-            className="btn rounded-xl px-8 
-              bg-blue-600 hover:bg-blue-700 
-              dark:bg-blue-500 dark:hover:bg-blue-600 
-              text-white transition">
-            Book This Service
-          </button> */}
+          <BookServiceButton  service={serializedService}  ></BookServiceButton>
+      
         </div>
       </div>
 

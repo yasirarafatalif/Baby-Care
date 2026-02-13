@@ -30,25 +30,21 @@ export default async function RootLayout({ children }) {
   const session = await getServerSession(authOptions);
   return (
     <NextAuthProvider session={session}>
-        <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${poppins.className} ${geistMono.variable} antialiased`}
-      >
-        <Toaster
-  position="top-center"
-  reverseOrder={false}
-/>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <header><Navbar session={session}></Navbar></header>
-          
-  
-          <div className="">{children}</div>
-          <Footer></Footer>
-        </ThemeProvider>
-      </body>
-    </html>
+      <html lang="en" suppressHydrationWarning>
+        <body
+          className={`${poppins.className} ${geistMono.variable} antialiased`}
+        >
+          <Toaster position="top-center" reverseOrder={false} />
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <header>
+              <Navbar session={session}></Navbar>
+            </header>
 
+            <div className="">{children}</div>
+            <Footer></Footer>
+          </ThemeProvider>
+        </body>
+      </html>
     </NextAuthProvider>
-  
   );
 }
