@@ -1,47 +1,46 @@
 "use client";
-import EmailLogin from '@/Components/Section/EmailLogin';
-import Link from 'next/link';
-import React from 'react';
-import { signIn } from "next-auth/react"
-import toast from 'react-hot-toast';
-import Swal from 'sweetalert2';
-import GoogleLogInButton from '@/Components/Items/GoogleLogInButton';
+
+import Link from "next/link";
+import React from "react";
+import { signIn } from "next-auth/react";
+import toast from "react-hot-toast";
+import Swal from "sweetalert2";
+import GoogleLogInButton from "@/Components/Items/GoogleLogInButton";
+import { useRouter } from "next/navigation";
 
 const LoginPage = () => {
- const handelSubmit = async (e) => {
-  e.preventDefault();
-  const form = e.target;
-  const email = form.email.value;
-  const password = form.password.value;
-  console.log(email, password);
-   Swal.fire({
-  title: "Drag me!",
-  icon: "success",
-  draggable: true
-});
-  
+  const router = useRouter();
+  const handelSubmit = async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
+    Swal.fire({
+      title: "Login Successful",
+      icon: "success",
+      draggable: true,
+    });
 
-  await signIn("credentials", {
-    email,
-    password,
-    callbackUrl: "/",
-    redirect: true,
-  });
- 
-  // toast.success('Login Successful');
-};
+    await signIn("credentials", {
+      email,
+      password,
+      callbackUrl: "/",
+      redirect: true,
+    });
+  };
 
-const googleLogin = () => {
-  
-  signIn("google", { callbackUrl: "/" });
-}
-
+  const googleLogin = () => {
+    Swal.fire({
+      title: "Login Successful",
+      icon: "success",
+      draggable: true,
+    });
+    signIn("google", { callbackUrl: "/" });
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 px-4 transition-colors duration-300">
-      {/* <EmailLogin></EmailLogin> */}
       <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-10 border border-transparent dark:border-gray-700">
-        
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white">
@@ -60,7 +59,7 @@ const googleLogin = () => {
             </label>
             <input
               type="email"
-              name='email'
+              name="email"
               className="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all placeholder:text-gray-400"
               placeholder="example@mail.com"
               required
@@ -73,13 +72,16 @@ const googleLogin = () => {
               <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
                 Password
               </label>
-              <a href="#" className="text-sm text-indigo-600 dark:text-indigo-400 hover:underline">
+              <a
+                href="#"
+                className="text-sm text-indigo-600 dark:text-indigo-400 hover:underline"
+              >
                 Forgot?
               </a>
             </div>
             <input
               type="password"
-              name='password'
+              name="password"
               className="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all placeholder:text-gray-400"
               placeholder="••••••••"
               required
@@ -105,24 +107,24 @@ const googleLogin = () => {
             Sign In
           </button>
         </form>
-       
 
         {/* Footer */}
-        <Link href="/register" className="mt-8 text-center text-sm text-gray-600 dark:text-gray-400">
-          Don't have an account?{' '}
-          <span href="#" className="text-indigo-600 dark:text-indigo-400 font-bold hover:underline">
+        <Link
+          href="/register"
+          className="mt-8 text-center text-sm text-gray-600 dark:text-gray-400"
+        >
+          Don't have an account?{" "}
+          <span
+            href="#"
+            className="text-indigo-600 dark:text-indigo-400 font-bold hover:underline"
+          >
             Register
           </span>
         </Link>
-        <div className='mt-3'>
-        <GoogleLogInButton></GoogleLogInButton>
+        <div className="mt-3">
+          <GoogleLogInButton></GoogleLogInButton>
+        </div>
       </div>
-
-      </div>
-
-       
-      
-    
     </div>
   );
 };

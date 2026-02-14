@@ -7,14 +7,15 @@ import { FaUserCircle, FaTachometerAlt } from "react-icons/fa";
 import ThemeToggle from "../ui/ThemeToggle";
 import LogOutButton from "./LogOutButton";
 import { useSession } from "next-auth/react";
+import { MdDashboard } from "react-icons/md";
 
 const UserMenu = ({ user }) => {
   const [open, setOpen] = useState(false);
   const menuRef = useRef(null);
   const { data: session } = useSession();
+  console.log(session)
   const isUser = session?.role === "user";
   const isAdmin = session?.role === "admin";
-  
 
   useEffect(() => {
     const handleOutsideClick = (e) => {
@@ -37,7 +38,7 @@ const UserMenu = ({ user }) => {
       {/* Avatar Button */}
       <button
         onClick={(e) => {
-          e.stopPropagation(); 
+          e.stopPropagation();
           setOpen((prev) => !prev);
         }}
         className="flex items-center gap-2 p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition"
@@ -72,8 +73,6 @@ const UserMenu = ({ user }) => {
           <div className="p-1 space-y-1">
             <ThemeToggle />
 
-           
-
             <Link
               href="/profile"
               onClick={() => setOpen(false)}
@@ -82,30 +81,28 @@ const UserMenu = ({ user }) => {
               <FaUserCircle className="text-purple-500" />
               Profile
             </Link>
-            {
-                isAdmin && (
-                 <Link
-              href="/dashboard/admin"
-              onClick={() => setOpen(false)}
-              className="flex items-center gap-3 px-4 py-2 text-sm hover:bg-blue-50 dark:hover:bg-gray-800 rounded-lg transition"
-            >
-              <FaTachometerAlt className="text-blue-500" />
-              Dashboard
-            </Link>
-            )
-            }
-            {
-                isUser && (
-                 <Link
-              href="/dashboard/user"
-              onClick={() => setOpen(false)}
-              className="flex items-center gap-3 px-4 py-2 text-sm hover:bg-blue-50 dark:hover:bg-gray-800 rounded-lg transition"
-            >
-              <FaTachometerAlt className="text-blue-500" />
-              Dashboard
-            </Link>
-            )
-            }
+            {isAdmin && (
+              <Link
+                href="/dashboard/admin"
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-3 px-4 py-2 text-sm hover:bg-blue-50 dark:hover:bg-gray-800 rounded-lg transition"
+              >
+                <MdDashboard className="text-blue-500" />
+                {/* <FaTachometerAlt className="text-blue-500" /> */}
+                Dashboard
+              </Link>
+            )}
+            {isUser && (
+              <Link
+                href="/dashboard/user"
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-3 px-4 py-2 text-sm hover:bg-blue-50 dark:hover:bg-gray-800 rounded-lg transition"
+              >
+                
+                <FaTachometerAlt className="text-blue-500" />
+                Dashboard
+              </Link>
+            )}
           </div>
 
           <div className="p-1 border-t border-gray-100 dark:border-gray-800">

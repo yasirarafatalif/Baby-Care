@@ -1,7 +1,7 @@
 "use client";
+
 import { postUser } from "@/actions/server/auth";
 import GoogleLogInButton from "@/Components/Items/GoogleLogInButton";
-import SocialLogin from "@/Components/ui/SocialLogin";
 import { useSession } from "next-auth/react";
 import { navigate } from "next/dist/client/components/segment-cache/navigation";
 import { useRouter } from "next/navigation";

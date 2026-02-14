@@ -2,7 +2,7 @@ import GithubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { dbConnect } from "@/lib/bdConnect";
 import bcrypt from "bcryptjs";
-import GoogleProvider from "next-auth/providers/google"
+import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions = {
   // Configure one or more authentication providers
@@ -47,14 +47,12 @@ export const authOptions = {
     }),
 
     GoogleProvider({
-  clientId: process.env.GOOGLE_CLIENT_ID,
-  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-})
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    }),
   ],
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
-
-
       try {
         const payload = {
           ...user,
@@ -79,23 +77,24 @@ export const authOptions = {
       } catch (error) {
         return false;
       }
-      
     },
     async redirect({ url, baseUrl }) {
       return baseUrl;
     },
     async session({ session, token, user }) {
-      
       if (token) {
         session.role = token.role;
       }
       return session;
     },
     async jwt({ token, user, account, profile, isNewUser }) {
-      if (user) {
-        token.email = user.email;
-        token.role = user.role;
-        
+      if (user?.email) {
+        const dbUser = await dbConnect("users").findOne({
+          email: user.email,
+        });
+
+        token.email = dbUser.email;
+        token.role = dbUser.role || "user";
       }
       return token;
     },

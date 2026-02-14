@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import {
   FaUserCircle,
@@ -15,9 +16,12 @@ import { FaRegCircleUser } from "react-icons/fa6";
 import LogIn from "./Items/LogIn";
 import Image from "next/image";
 import UserMenu from "./Items/UserMenu";
+import { useSession } from "next-auth/react";
 
-const Navbar = ({ session }) => {
-  const user = session?.user || null;
+const Navbar = () => {
+  const { data: session } = useSession();
+  const user = session?.user;
+
   const navLinks = [
     { name: "Home", href: "/", icon: <FaHome /> },
     { name: "Services", href: "/services", icon: <FaShoppingBag /> },
@@ -62,7 +66,7 @@ const Navbar = ({ session }) => {
                 href={link.href}
                 className="relative flex items-center gap-2 text-lg font-medium text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 group"
               >
-               {link.icon} {link.name}
+                {link.icon} {link.name}
                 {/* Hover Underline */}
                 <span className="absolute left-0 bottom-[-2px] w-0 h-[2px] bg-blue-600 dark:bg-blue-400 transition-all duration-300 group-hover:w-full"></span>
               </Link>
@@ -70,7 +74,41 @@ const Navbar = ({ session }) => {
           </div>
 
           {/* End: ThemeToggle & User Section */}
-          <UserMenu user={user} />
+
+          {
+            /* User Section */
+            user ? (
+              <UserMenu user={user} />
+            ) : (
+              <div className="flex items-center gap-3">
+                {/* Login */}
+                <Link
+                  href="/login"
+                  className="relative px-5 py-2 text-sm font-semibold text-blue-600 
+        rounded-full border border-blue-600/40 
+        backdrop-blur-md bg-white/40 dark:bg-gray-900/40
+        hover:bg-blue-50 dark:hover:bg-gray-800
+        transition-all duration-300"
+                >
+                  Login
+                </Link>
+
+                {/* Register */}
+                <Link
+                  href="/register"
+                  className="relative px-5 py-2 text-sm font-semibold text-white 
+        rounded-full bg-gradient-to-r from-blue-600 to-indigo-600
+        shadow-lg shadow-blue-500/30
+        hover:scale-105 hover:shadow-indigo-500/40
+        transition-all duration-300"
+                >
+                  Register
+                </Link>
+              </div>
+            )
+          }
+
+          {/* <UserMenu user={user} /> */}
         </div>
       </div>
     </nav>

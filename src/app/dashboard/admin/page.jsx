@@ -1,17 +1,9 @@
-import { getServerSession } from 'next-auth';
-import { useSession } from 'next-auth/react';
-import React from 'react';
 
-const AdminDashboard = async () => {
-    // const { data: sessionData } = await useSession();
-     const session = await getServerSession();
-    // console.log(session)
-    return (
-        <div>
-            this is admin dashboard
-            
-        </div>
-    );
-};
-
-export default AdminDashboard;
+export default function AdminDashboard() {
+  return (
+    <div>
+      <h1 className="text-2xl font-bold">Admin Dashboard</h1>
+      <p>Overview, stats, charts...</p>
+    </div>
+  );
+}

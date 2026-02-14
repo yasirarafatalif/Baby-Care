@@ -42,6 +42,14 @@ if (isUserRoute) {
       return NextResponse.redirect(new URL("/", req.url));
     }
   }
+  if (token && reqPath === "/login") {
+    return NextResponse.redirect(new URL("/", req.url));
+  }
+  if (token && reqPath === "/register") {
+    return NextResponse.redirect(new URL("/", req.url));
+  }
+
+
 
   return NextResponse.next();
 
@@ -56,5 +64,7 @@ export const config = {
     "/services/:path*",
     "/admin/:path*",
     "/profile/:path*",
+    "/login",
+    "/register",
   ],
 };

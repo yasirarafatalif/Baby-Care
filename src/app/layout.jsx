@@ -1,19 +1,17 @@
 import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/Components/Navbar";
-import { ThemeProvider } from "next-themes";
-import Footer from "@/Components/Footer";
-import NextAuthProvider from "@/provider/NextAuthProvider";
+
 import { getServerSession } from "next-auth";
-import { Toaster } from "react-hot-toast";
+import NextAuthProvider from "@/provider/NextAuthProvider";
+import ThemeProviderWrapper from "@/provider/ThemeProviderWrapper";
+import ToasterProvider from "@/provider/ToasterProvider";
+import Navbar from "@/Components/Navbar";
+import Footer from "@/Components/Footer";
 import { authOptions } from "@/lib/authOptions";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
 const poppins = Poppins({
   weight: ["200", "400", "500", "600", "700"],
+  subsets: ["latin"],
 });
 
 const geistMono = Geist_Mono({
@@ -28,23 +26,19 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
   const session = await getServerSession(authOptions);
-  return (
-    <NextAuthProvider session={session}>
-      <html lang="en" suppressHydrationWarning>
-        <body
-          className={`${poppins.className} ${geistMono.variable} antialiased`}
-        >
-          <Toaster position="top-center" reverseOrder={false} />
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <header>
-              <Navbar session={session}></Navbar>
-            </header>
 
-            <div className="">{children}</div>
-            <Footer></Footer>
-          </ThemeProvider>
-        </body>
-      </html>
-    </NextAuthProvider>
+  return (
+    <html lang="en">
+      <body
+        className={`${poppins.className} ${geistMono.variable} antialiased`}
+      >
+        <NextAuthProvider session={session}>
+          <ThemeProviderWrapper>
+            <ToasterProvider />
+            <main>{children}</main>
+          </ThemeProviderWrapper>
+        </NextAuthProvider>
+      </body>
+    </html>
   );
 }
