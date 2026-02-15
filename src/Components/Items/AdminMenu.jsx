@@ -2,10 +2,12 @@
 
 import Link from "next/link";
 import { Shield, LogOut, Settings, User, ChevronDown } from "lucide-react";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 
-export default function AdminMenu({ user }) {
+export default function AdminMenu() {
+  const { data: session } = useSession();
+    const user = session?.user;
   return (
     <div className="relative group">
       {/* Dropdown menu (DOWN) */}
