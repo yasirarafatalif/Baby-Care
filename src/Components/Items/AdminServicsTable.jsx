@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Search, Clock, Calendar, MapPin } from "lucide-react";
+import ServicesStatusUpdate from "./ServicesStatusUpdate";
 
 const AdminServicsTable = ({ services }) => {
   const [search, setSearch] = useState("");
@@ -132,36 +133,9 @@ const AdminServicsTable = ({ services }) => {
                   <p className="text-[10px] text-gray-400">Total Calculation</p>
                 </td>
 
-     <td className="px-6 py-4">
-  {item.status === "pending" ?(
-    /* Jodi status pending na hoy (mane approved ba rejected), tokhon shudhu span dekhabe */
-    <span
-      className={`px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest
-        ${
-          item.status === "approved"
-            ? "bg-green-100 text-green-700"
-            : "bg-red-100 text-red-700"
-        }
-      `}
-    >
-      {item.status}
-    </span>
-  ): (
-    /* Jodi status pending hoy, tokhon select option dekhabe */
-    <select
-      defaultValue={item.status}
-      onChange={(e) => handleStatusChange(item._id, e.target.value)}
-      className="px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest 
-                 border border-amber-300 bg-amber-50 text-amber-700
-                 focus:outline-none cursor-pointer"
-    >
-      <option value="pending">Pending</option>
-      <option value="approved">Approve</option>
-      <option value="rejected">Reject</option>
-    </select>
-  ) }
-</td>
-
+                <td className="px-6 py-4">
+                 <ServicesStatusUpdate item={item} ></ServicesStatusUpdate>
+                </td>
 
                 <td className="px-6 py-4 text-right">
                   <span
