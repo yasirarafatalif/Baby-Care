@@ -7,7 +7,6 @@ const AdminServicsTable = ({ services }) => {
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
 
-  // ক্যাটাগরি লিস্ট তৈরি (Unique Categories)
   const categories = ["All", ...new Set(services.map((item) => item.category))];
 
   const filteredData = services.filter((item) => {
@@ -15,8 +14,9 @@ const AdminServicsTable = ({ services }) => {
       item.username.toLowerCase().includes(search.toLowerCase()) ||
       item.email.toLowerCase().includes(search.toLowerCase()) ||
       item.serviceName.toLowerCase().includes(search.toLowerCase());
-    
-    const matchesCategory = selectedCategory === "All" || item.category === selectedCategory;
+
+    const matchesCategory =
+      selectedCategory === "All" || item.category === selectedCategory;
 
     return matchesSearch && matchesCategory;
   });
@@ -27,12 +27,17 @@ const AdminServicsTable = ({ services }) => {
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
-          <p className="text-sm text-gray-500 font-medium">Monitoring all service requests and bookings</p>
+          <p className="text-sm text-gray-500 font-medium">
+            Monitoring all service requests and bookings
+          </p>
         </div>
 
         {/* Search bar */}
         <div className="relative w-full md:w-80">
-          <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+          <Search
+            size={18}
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+          />
           <input
             type="text"
             placeholder="Search by user, email or service..."
@@ -65,18 +70,33 @@ const AdminServicsTable = ({ services }) => {
         <table className="w-full text-sm">
           <thead>
             <tr className="bg-gray-50/50 text-gray-500 border-b border-gray-50">
-              <th className="px-6 py-5 text-left font-bold uppercase tracking-wider text-[10px]">Customer</th>
-              <th className="px-6 py-5 text-left font-bold uppercase tracking-wider text-[10px]">Service Details</th>
-              <th className="px-6 py-5 text-left font-bold uppercase tracking-wider text-[10px]">Booking Period</th>
-              <th className="px-6 py-5 text-left font-bold uppercase tracking-wider text-[10px]">Total Cost</th>
-              <th className="px-6 py-5 text-left font-bold uppercase tracking-wider text-[10px]">Status</th>
-              <th className="px-6 py-5 text-right font-bold uppercase tracking-wider text-[10px]">Payment</th>
+              <th className="px-6 py-5 text-left font-bold uppercase tracking-wider text-[10px]">
+                Customer
+              </th>
+              <th className="px-6 py-5 text-left font-bold uppercase tracking-wider text-[10px]">
+                Service Details
+              </th>
+              <th className="px-6 py-5 text-left font-bold uppercase tracking-wider text-[10px]">
+                Booking Period
+              </th>
+              <th className="px-6 py-5 text-left font-bold uppercase tracking-wider text-[10px]">
+                Total Cost
+              </th>
+              <th className="px-6 py-5 text-left font-bold uppercase tracking-wider text-[10px]">
+                Status
+              </th>
+              <th className="px-6 py-5 text-right font-bold uppercase tracking-wider text-[10px]">
+                Payment
+              </th>
             </tr>
           </thead>
 
           <tbody className="divide-y divide-gray-50">
             {filteredData.map((item) => (
-              <tr key={item._id} className="hover:bg-blue-50/20 transition-colors">
+              <tr
+                key={item._id}
+                className="hover:bg-blue-50/20 transition-colors"
+              >
                 <td className="px-6 py-4">
                   <p className="font-bold text-gray-900">{item.username}</p>
                   <p className="text-xs text-gray-500">{item.email}</p>
@@ -94,7 +114,9 @@ const AdminServicsTable = ({ services }) => {
                   <div className="space-y-1">
                     <div className="flex items-center gap-2 text-gray-700">
                       <Clock size={14} className="text-blue-400" />
-                      <span className="font-semibold">{item.perHour} Hours</span>
+                      <span className="font-semibold">
+                        {item.perHour} Hours
+                      </span>
                     </div>
                     <div className="flex items-center gap-2 text-gray-500 text-[11px]">
                       <Calendar size={14} className="text-orange-400" />
@@ -104,20 +126,51 @@ const AdminServicsTable = ({ services }) => {
                 </td>
 
                 <td className="px-6 py-4">
-                  <p className="font-bold text-gray-900">৳ {item.totalHourCost + item.totalDayCost}</p>
+                  <p className="font-bold text-gray-900">
+                    ৳ {item.totalHourCost + item.totalDayCost}
+                  </p>
                   <p className="text-[10px] text-gray-400">Total Calculation</p>
                 </td>
 
-                <td className="px-6 py-4">
-                  <span className="px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest bg-amber-100 text-amber-700">
-                    {item.status}
-                  </span>
-                </td>
+     <td className="px-6 py-4">
+  {item.status === "pending" ?(
+    /* Jodi status pending na hoy (mane approved ba rejected), tokhon shudhu span dekhabe */
+    <span
+      className={`px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest
+        ${
+          item.status === "approved"
+            ? "bg-green-100 text-green-700"
+            : "bg-red-100 text-red-700"
+        }
+      `}
+    >
+      {item.status}
+    </span>
+  ): (
+    /* Jodi status pending hoy, tokhon select option dekhabe */
+    <select
+      defaultValue={item.status}
+      onChange={(e) => handleStatusChange(item._id, e.target.value)}
+      className="px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest 
+                 border border-amber-300 bg-amber-50 text-amber-700
+                 focus:outline-none cursor-pointer"
+    >
+      <option value="pending">Pending</option>
+      <option value="approved">Approve</option>
+      <option value="rejected">Reject</option>
+    </select>
+  ) }
+</td>
+
 
                 <td className="px-6 py-4 text-right">
-                  <span className={`px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest ${
-                    item.paid === "paid" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
-                  }`}>
+                  <span
+                    className={`px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest ${
+                      item.paid === "paid"
+                        ? "bg-green-100 text-green-700"
+                        : "bg-red-100 text-red-700"
+                    }`}
+                  >
                     {item.paid}
                   </span>
                 </td>
@@ -130,33 +183,45 @@ const AdminServicsTable = ({ services }) => {
       {/* Mobile Cards */}
       <div className="md:hidden space-y-4">
         {filteredData.map((item) => (
-          <div key={item._id} className="bg-white border border-gray-100 rounded-3xl p-5 shadow-sm space-y-4">
+          <div
+            key={item._id}
+            className="bg-white border border-gray-100 rounded-3xl p-5 shadow-sm space-y-4"
+          >
             <div className="flex justify-between items-start">
               <div>
                 <p className="font-bold text-gray-900">{item.username}</p>
                 <p className="text-xs text-gray-500">{item.email}</p>
               </div>
-              <span className={`px-2 py-1 rounded-md text-[9px] font-bold uppercase tracking-tighter ${
-                item.paid === "paid" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
-              }`}>
+              <span
+                className={`px-2 py-1 rounded-md text-[9px] font-bold uppercase tracking-tighter ${
+                  item.paid === "paid"
+                    ? "bg-green-100 text-green-700"
+                    : "bg-red-100 text-red-700"
+                }`}
+              >
                 {item.paid}
               </span>
             </div>
 
             <div className="p-3 bg-gray-50 rounded-2xl">
-              <p className="font-bold text-blue-600 text-sm">{item.serviceName}</p>
+              <p className="font-bold text-blue-600 text-sm">
+                {item.serviceName}
+              </p>
               <div className="flex items-center gap-4 mt-2">
                 <div className="flex items-center gap-1 text-xs text-gray-600 font-medium">
                   <Clock size={12} className="text-blue-500" /> {item.perHour}h
                 </div>
                 <div className="flex items-center gap-1 text-xs text-gray-600 font-medium">
-                  <Calendar size={12} className="text-orange-500" /> {item.perDay}d
+                  <Calendar size={12} className="text-orange-500" />{" "}
+                  {item.perDay}d
                 </div>
               </div>
             </div>
 
             <div className="flex justify-between items-center pt-2">
-              <p className="font-bold text-lg">৳ {item.totalHourCost + item.totalDayCost}</p>
+              <p className="font-bold text-lg">
+                ৳ {item.totalHourCost + item.totalDayCost}
+              </p>
               <span className="px-2 py-1 bg-amber-100 text-amber-700 rounded-md text-[9px] font-bold uppercase">
                 {item.status}
               </span>
