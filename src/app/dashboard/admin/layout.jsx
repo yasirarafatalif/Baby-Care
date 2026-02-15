@@ -1,5 +1,4 @@
 // app/dashboard/admin/layout.jsx
-"use client";
 
 import AdminNavbar from "@/Components/Items/AdminNavbar";
 import AdminSidebar from "@/Components/Items/AdminSidebar";
@@ -10,6 +9,7 @@ import AdminSidebar from "@/Components/Items/AdminSidebar";
 export default function AdminLayout({ children }) {
   return (
     <div className="flex min-h-screen">
+
       {/* Sidebar */}
       <AdminSidebar />
 

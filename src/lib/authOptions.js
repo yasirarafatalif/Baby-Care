@@ -88,6 +88,8 @@ export const authOptions = {
       return session;
     },
     async jwt({ token, user, account, profile, isNewUser }) {
+
+      // google sign in check user role from database
       if (user?.email) {
         const dbUser = await dbConnect("users").findOne({
           email: user.email,
