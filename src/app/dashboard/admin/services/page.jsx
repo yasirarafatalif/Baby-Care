@@ -3,7 +3,10 @@ import { dbConnect } from '@/lib/bdConnect';
 import React from 'react';
 
 const AllServices = async () => {
-    const services = await dbConnect("services").find().toArray();
+    const services = await dbConnect("services")
+  .find({ status: { $in: ["Pending","approved","completed"] } })
+  .toArray();
+
     return (
         <div>
             <AdminServicsTable services={JSON.parse(JSON.stringify(services))} />

@@ -56,7 +56,7 @@ const ServicesStatusUpdate = ({ item }) => {
         >
           <option value="pending">Pending</option>
           <option value="approved">Approve</option>
-          <option value="rejected">Reject</option>
+          <option value="completed">Completed</option>
         </select>
       )}
     </div>
