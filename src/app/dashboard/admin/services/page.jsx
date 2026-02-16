@@ -4,7 +4,7 @@ import React from 'react';
 
 const AllServices = async () => {
     const services = await dbConnect("services")
-  .find({ status: { $in: ["Pending","approved","completed"] } })
+  .find({ status: { $in: ["Pending","approved"] } })
   .toArray();
 
     return (
