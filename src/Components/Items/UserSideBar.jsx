@@ -82,10 +82,10 @@ export default function UserSideBar() {
           </Link>
 
           <Link
-            href="/dashboard/admin"
+            href="/dashboard/user"
             onClick={() => setOpen(false)}
             className={`flex items-center gap-3 p-3 rounded-lg ${isActive(
-              "/dashboard/admin"
+              "/dashboard/user"
             )}`}
           >
             <LayoutDashboard size={18} />
@@ -102,7 +102,7 @@ export default function UserSideBar() {
             )}`}
           >
             <Package size={18} />
-            Services
+             My Services
           </Link>
 
 

@@ -47,10 +47,3 @@ export const userCompletedServices = async (email) => {
     .toArray(); 
   return services;
 };
-
-export const findAllServices = async () => {
-  const services = await dbConnect("services")
-    .find()
-    .toArray(); 
-  return services;
-};

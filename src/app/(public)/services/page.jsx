@@ -1,5 +1,4 @@
 
-
 import { dbConnect } from "@/lib/bdConnect";
 import Image from "next/image";
 import Link from "next/link";
@@ -11,7 +10,8 @@ export const metadata = {
 
 const ServicesPage = async () => {
   const services =await dbConnect("products").find().toArray();
-  console.log(services)
+
+  // const services = await findAllServices();
 //   const services = await Service.find({ is_active: true }).lean();
 
   return (
