@@ -8,6 +8,7 @@ import Image from "next/image";
 export default function AdminMenu() {
   const { data: session } = useSession();
     const user = session?.user;
+    
   return (
     <div className="relative group">
       {/* Dropdown menu (DOWN) */}
@@ -80,7 +81,7 @@ export default function AdminMenu() {
             </p>
             <div className="flex items-center gap-1 text-[10px] text-blue-400 font-medium uppercase tracking-[1px]">
               <Shield size={10} />
-              <span>Admin</span>
+              <span>{session?.role || "Admin"}</span>
             </div>
           </div>
         </div>

@@ -27,3 +27,30 @@ export const insertServices = async (data) => {
     insertedId: result.insertedId.toString(), 
   };
 };
+
+
+export const userFindServices = async (email) => {
+  const services = await dbConnect("services")
+    .find({ email })
+    .toArray(); 
+  return services;
+};
+export const userPendingServices = async (email) => {
+  const services = await dbConnect("services")
+    .find({ email, status: "pending" })
+    .toArray(); 
+  return services;
+};
+export const userCompletedServices = async (email) => {
+  const services = await dbConnect("services")
+    .find({ email, status: "completed" })
+    .toArray(); 
+  return services;
+};
+
+export const findAllServices = async () => {
+  const services = await dbConnect("services")
+    .find()
+    .toArray(); 
+  return services;
+};
