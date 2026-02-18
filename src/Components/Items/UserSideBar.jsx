@@ -1,52 +1,137 @@
-
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { IoIosHome } from "react-icons/io";
+import { LuCircleUser } from "react-icons/lu";
+import { CiCreditCard1 } from "react-icons/ci";
+import {
+  LayoutDashboard,
+  Users,
+  Package,
+  Settings,
+  ShieldCheck,
+  Menu,
+  X,
+} from "lucide-react";
 
-export default function UserSideBar({ open, setOpen }) {
+export default function UserSideBar() {
+  const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+
+  const isActive = (path) =>
+    pathname === path
+      ? "bg-blue-600 text-white"
+      : "text-gray-400 hover:bg-gray-800 hover:text-white";
+
   return (
     <>
-      {/* Overlay (mobile) */}
+      {/* Mobile Menu Button */}
+      <button
+        onClick={() => setOpen(true)}
+        className="md:hidden fixed top-4 left-4 z-[60] bg-gray-900 p-2 rounded-lg border border-gray-700"
+      >
+        <Menu className="text-white" />
+      </button>
+
+      {/* Overlay */}
       {open && (
         <div
           onClick={() => setOpen(false)}
-          className="fixed inset-0 bg-black/40 z-40 md:hidden"
+          className="fixed inset-0 bg-black/50 z-[50] md:hidden"
         />
       )}
 
-      {/* Sidebar */}
+      {/* Sidebar – ALWAYS FIXED */}
       <aside
         className={`
-          fixed md:static z-50
-          h-full w-64
-          bg-white dark:bg-gray-900
-          border-r border-gray-200 dark:border-gray-800
+          fixed top-0 left-0 z-[55]
+          h-screen w-64
+          bg-gray-950 text-white
+          border-r border-gray-800
           transform transition-transform duration-300
           ${open ? "translate-x-0" : "-translate-x-full"}
           md:translate-x-0
+          flex flex-col
         `}
       >
-        <div className="h-16 flex items-center justify-center font-bold text-xl border-b dark:border-gray-800">
-          User Panel
+        {/* Header */}
+        <div className="p-6 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <LuCircleUser className="text-blue-500" size={26} />
+            <h2 className="text-lg font-bold">User Panel</h2>
+          </div>
+
+          <button onClick={() => setOpen(false)} className="md:hidden">
+            <X />
+          </button>
         </div>
 
-        <nav className="p-4 space-y-2">
-          {[
-            { name: "Dashboard", path: "/dashboard" },
-            { name: "Profile", path: "/dashboard/profile" },
-            { name: "My Services", path: "/dashboard/services" },
-            { name: "Settings", path: "/dashboard/settings" },
-          ].map((item) => (
-            <Link key={item.path} href={item.path}>
-              <div
-                onClick={() => setOpen(false)}
-                className="px-4 py-2 rounded cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800"
-              >
-                {item.name}
-              </div>
-            </Link>
-          ))}
+        {/* Nav */}
+        <nav className="px-4 space-y-2 flex-1 overflow-y-auto">
+          <p className="text-xs text-gray-500 uppercase mb-3">Main Menu</p>
+
+          <Link
+            href="/"
+            onClick={() => setOpen(false)}
+            className="flex items-center gap-3 p-3 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white"
+          >
+            <IoIosHome size={18} />
+            Home
+          </Link>
+
+          <Link
+            href="/dashboard/admin"
+            onClick={() => setOpen(false)}
+            className={`flex items-center gap-3 p-3 rounded-lg ${isActive(
+              "/dashboard/admin"
+            )}`}
+          >
+            <LayoutDashboard size={18} />
+            Dashboard
+          </Link>
+
+        
+
+          <Link
+            href="/dashboard/user/services"
+            onClick={() => setOpen(false)}
+            className={`flex items-center gap-3 p-3 rounded-lg ${isActive(
+              "/dashboard/user/services"
+            )}`}
+          >
+            <Package size={18} />
+            Services
+          </Link>
+
+
+          <Link
+            href="/dashboard/user/payments"
+            onClick={() => setOpen(false)}
+            className={`flex items-center gap-3 p-3 rounded-lg ${isActive(
+              "/dashboard/user/payments"
+            )}`}
+          >
+            <CiCreditCard1 size={18} />
+            Payments
+          </Link>
+         
+
+          <Link
+            href="/dashboard/user/settings"
+            onClick={() => setOpen(false)}
+            className={`flex items-center gap-3 p-3 rounded-lg ${isActive(
+              "/dashboard/user/settings"
+            )}`}
+          >
+            <Settings size={18} />
+            Settings
+          </Link>
         </nav>
+
+        {/* Bottom */}
+        <div className="border-t border-gray-800 p-4 bg-gray-900/60" />
       </aside>
     </>
   );

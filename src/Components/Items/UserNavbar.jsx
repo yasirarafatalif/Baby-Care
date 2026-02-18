@@ -1,32 +1,28 @@
-// components/dashboard/Navbar.jsx
 "use client";
 
-import { Menu } from "lucide-react";
+import { usePathname } from "next/navigation";
+import AdminMenu from "./AdminMenu";
 
-export default function UserNavbar({ setOpen }) {
+const pageTitles = {
+  "/dashboard/user": "Dashboard",
+  "/dashboard/user/services": "Services",
+  "/dashboard/user/settings": "Settings",
+};
+
+const UserNavbar = () => {
+  const pathname = usePathname();
+
+  const title = pageTitles[pathname] || "User Dashboard";
+
   return (
-    <header className="h-16 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between px-4 md:px-6">
-      
-      <div className="flex items-center gap-3">
-        {/* Mobile menu button */}
-        <button
-          onClick={() => setOpen(true)}
-          className="md:hidden p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800"
-        >
-          <Menu size={22} />
-        </button>
+    <div className="bg-gray-800 text-white p-4 flex items-center justify-between">
+      <h1 className="text-xl font-bold ml-2">{title}</h1>
 
-        <h1 className="text-lg font-semibold">Dashboard</h1>
+      <div>
+        <AdminMenu />
       </div>
-
-      <div className="flex items-center gap-4">
-        <span className="text-sm text-gray-600 dark:text-gray-300">
-          Hello, User
-        </span>
-        <button className="px-3 py-1 text-sm rounded bg-red-500 text-white hover:bg-red-600">
-          Logout
-        </button>
-      </div>
-    </header>
+    </div>
   );
-}
+};
+
+export default UserNavbar;
