@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 
 const UserServicesClient = ({ services }) => {
@@ -118,13 +119,14 @@ const UserServicesClient = ({ services }) => {
               </div>
 
               {/* 👁️ View Button */}
-              <button
+              <Link
+                href={`/dashboard/user/services/${service.serviceId}`}
                 className="w-full mt-3 px-4 py-2 rounded-lg
                            bg-blue-600 hover:bg-blue-700
                            text-white font-semibold transition"
               >
                 View Details
-              </button>
+              </Link>
             </div>
           </div>
         ))}
