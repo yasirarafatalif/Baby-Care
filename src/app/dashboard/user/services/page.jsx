@@ -3,6 +3,7 @@ import { userFindServices } from "@/actions/server/services";
 import { authOptions } from "@/lib/authOptions";
 import { getServerSession } from "next-auth";
 import UserServicesClient from "@/Components/Items/UserServicesClient";
+import UserServicesLoading from "./loading";
 
 const UserServices = async () => {
   const session = await getServerSession(authOptions);
@@ -17,6 +18,10 @@ const UserServices = async () => {
     createdAt: service.createdAt?.toISOString?.(),
     submitDate: service.submitDate?.toISOString?.(),
   }));
+
+  if (!services) {
+    return <UserServicesLoading />;
+  }
 
   return <UserServicesClient services={safeServices} />;
 };

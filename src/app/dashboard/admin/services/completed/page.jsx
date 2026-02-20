@@ -1,10 +1,15 @@
 import { dbConnect } from "@/lib/bdConnect";
 import { Calendar, Clock } from "lucide-react";
+import AdminServicesCompletedLoading from "./loading";
 
 const CompletedServices = async () => {
   const services = await dbConnect("services")
     .find({ status: "completed" })
     .toArray();
+
+    if (!services) {
+      return <AdminServicesCompletedLoading />;
+    }
 
   return (
     <div className="p-6">
