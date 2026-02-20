@@ -1,6 +1,7 @@
 import { dbConnect } from "@/lib/bdConnect";
 import { ObjectId } from "mongodb";
 import React from "react";
+import UserServicesDetalisPageLoading from "./loading";
 
 const UserSingelServicesPage = async ({ params }) => {
   const { id } = await params;
@@ -11,7 +12,7 @@ const UserSingelServicesPage = async ({ params }) => {
   if (!service) {
     return (
       <div className="min-h-screen flex items-center justify-center text-red-500">
-        Service not found
+       <UserServicesDetalisPageLoading />
       </div>
     );
   }
