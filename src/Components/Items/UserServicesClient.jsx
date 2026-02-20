@@ -24,6 +24,7 @@ const UserServicesClient = ({ services }) => {
     ...new Set(services.map((s) => s.category)),
   ];
 
+
   return (
     <div className="p-6 min-h-screen bg-gray-50 dark:bg-gray-950">
       {/* Header */}
@@ -120,7 +121,7 @@ const UserServicesClient = ({ services }) => {
 
               {/* 👁️ View Button */}
               <Link
-                href={`/dashboard/user/services/${service.serviceId}`}
+                href={`/dashboard/user/services/${service._id}`}
                 className="w-full mt-3 px-4 py-2 rounded-lg
                            bg-blue-600 hover:bg-blue-700
                            text-white font-semibold transition"

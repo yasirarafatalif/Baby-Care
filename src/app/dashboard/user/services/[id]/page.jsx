@@ -1,10 +1,12 @@
 import { dbConnect } from "@/lib/bdConnect";
+import { ObjectId } from "mongodb";
 import React from "react";
 
 const UserSingelServicesPage = async ({ params }) => {
   const { id } = await params;
 
-  const service = await dbConnect("services").findOne({ serviceId: id });
+
+  const service = await dbConnect("services").findOne({ _id: new ObjectId(id) });
 
   if (!service) {
     return (
@@ -13,6 +15,7 @@ const UserSingelServicesPage = async ({ params }) => {
       </div>
     );
   }
+
 
   return (
     <div className="min-h-screen px-4 py-10 bg-gray-100 dark:bg-gray-950">
@@ -71,10 +74,22 @@ const UserSingelServicesPage = async ({ params }) => {
               </p>
             </div>
 
-            <button className="px-5 py-2 rounded-xl text-sm font-semibold 
+
+
+            {
+              service.paid === "unpaid" || service.status === "completed"  ? (
+                 <button className="px-5 py-2 rounded-xl text-sm font-semibold 
               bg-blue-600 text-white hover:bg-blue-700 transition">
               Pay Now
+            </button>) :  <button className="px-5 py-2 rounded-xl text-sm font-semibold 
+              bg-blue-600 text-white hover:bg-blue-700 transition">
+              Paid
             </button>
+
+
+            }
+
+           
           </div>
 
           {/* Footer */}
