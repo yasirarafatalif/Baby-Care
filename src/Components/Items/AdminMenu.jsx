@@ -35,13 +35,26 @@ export default function AdminMenu() {
             <span>My Profile</span>
           </Link>
 
-          <Link
+         {
+            session?.role === "admin" && (
+              <Link
             href="/dashboard/admin/settings"
             className="flex items-center gap-3 px-3 py-2 text-sm text-gray-300 hover:bg-blue-600 hover:text-white rounded-lg transition-colors"
           >
             <Settings size={16} />
             <span>System Settings</span>
-          </Link>
+          </Link>)
+         }
+         {
+            session?.role === "user" && (
+              <Link
+            href="/dashboard/user/settings"
+            className="flex items-center gap-3 px-3 py-2 text-sm text-gray-300 hover:bg-blue-600 hover:text-white rounded-lg transition-colors"
+          >
+            <Settings size={16} />
+            <span>System Settings</span>
+          </Link>)
+         }
 
           <button
             onClick={() => signOut()}
