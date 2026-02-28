@@ -10,3 +10,11 @@ export async function updateServiceStatus(id, status) {
     { $set: { status } }
   );
 }
+export async function adminAddserviceStatus(serviceData) {
+  console.log(serviceData)
+  await dbConnect("products").insertOne(
+    serviceData
+  );
+}
+
+

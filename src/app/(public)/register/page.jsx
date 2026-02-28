@@ -39,6 +39,14 @@ const { data: session, status } = useSession();
         timer: 1500,
       });
       router.push("/login");
+    }else{
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: result?.message || "Registration Failed",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     }
   };
 

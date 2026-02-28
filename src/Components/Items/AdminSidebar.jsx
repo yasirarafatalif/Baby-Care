@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { IoIosHome } from "react-icons/io";
 import { GoCheckbox } from "react-icons/go";
+import { MdAddToPhotos } from "react-icons/md";
 import {
   LayoutDashboard,
   Users,
@@ -111,6 +112,16 @@ export default function AdminSidebar() {
           >
             <Package size={18} />
             Services
+          </Link>
+          <Link
+            href="/dashboard/admin/services/add"
+            onClick={() => setOpen(false)}
+            className={`flex items-center gap-3 p-3 rounded-lg ${isActive(
+              "/dashboard/admin/services/add"
+            )}`}
+          >
+            <MdAddToPhotos size={18} />
+            Add Service
           </Link>
           <Link
             href="/dashboard/admin/services/completed"

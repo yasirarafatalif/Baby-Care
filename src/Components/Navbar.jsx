@@ -21,6 +21,7 @@ import { useSession } from "next-auth/react";
 const Navbar = () => {
   const { data: session } = useSession();
   const user = session?.user;
+  console.log(user)
 
   const navLinks = [
     { name: "Home", href: "/", icon: <FaHome /> },
