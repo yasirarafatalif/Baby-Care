@@ -15,6 +15,7 @@ import {
   Menu,
   X,
 } from "lucide-react";
+import { CiCreditCard1 } from "react-icons/ci";
 
 export default function AdminSidebar() {
   const pathname = usePathname();
@@ -132,6 +133,16 @@ export default function AdminSidebar() {
           >
             <GoCheckbox size={18} />
             Completed Services
+          </Link>
+          <Link
+            href="/dashboard/admin/services/payments"
+            onClick={() => setOpen(false)}
+            className={`flex items-center gap-3 p-3 rounded-lg ${isActive(
+              "/dashboard/admin/services/payments"
+            )}`}
+          >
+            <CiCreditCard1 size={18} />
+            Payments
           </Link>
 
           <Link
