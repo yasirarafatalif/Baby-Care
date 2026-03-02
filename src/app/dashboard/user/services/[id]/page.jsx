@@ -1,10 +1,18 @@
+
 import { dbConnect } from "@/lib/bdConnect";
 import { ObjectId } from "mongodb";
 import React from "react";
 import UserServicesDetalisPageLoading from "./loading";
+// import { loadStripe } from "@stripe/stripe-js";
+import UserPayementsBtn from "@/Components/Items/PaymentsInfo/UserPayementsBtn";
+
+// const stripePromise = loadStripe(
+//   process.env.STRIPE_PUBLISHABLE_KEY
+// )
 
 const UserSingelServicesPage = async ({ params }) => {
   const { id } = await params;
+ 
 
 
   const service = await dbConnect("services").findOne({ _id: new ObjectId(id) });
@@ -16,6 +24,25 @@ const UserSingelServicesPage = async ({ params }) => {
       </div>
     );
   }
+   console.log(service)
+   const parseService = JSON.parse(JSON.stringify(service))
+
+  // Payment Handler
+
+
+  // const handlePayment = async () => {
+  //   const stripe = await stripePromise;
+
+  //   const res = await fetch("/api/create-checkout-session", {
+  //     method: "POST",
+  //   });
+
+  //   const data = await res.json();
+
+  //   await stripe.redirectToCheckout({ sessionId: data.id });
+  // };
+
+  
 
 
   return (
@@ -74,13 +101,20 @@ const UserSingelServicesPage = async ({ params }) => {
                 {service.paid}
               </p>
             </div>
+          
+
+          <UserPayementsBtn service={parseService}  />
 
 
 
-            {
+            {/* {
               service.paid === "unpaid" || service.status === "completed"  ? (
-                 <button className="px-5 py-2 rounded-xl text-sm font-semibold 
-              bg-blue-600 text-white hover:bg-blue-700 transition">
+                 <button
+                 
+                 className="px-5 py-2 rounded-xl text-sm font-semibold 
+              bg-blue-600 text-white hover:bg-blue-700 transition"
+                 onClick={handlePayment}
+              >
               Pay Now
             </button>) :  <button className="px-5 py-2 rounded-xl text-sm font-semibold 
               bg-blue-600 text-white hover:bg-blue-700 transition">
@@ -88,7 +122,7 @@ const UserSingelServicesPage = async ({ params }) => {
             </button>
 
 
-            }
+            } */}
 
            
           </div>
