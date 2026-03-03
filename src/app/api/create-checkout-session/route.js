@@ -2,7 +2,7 @@ import stripe from "@/lib/stripe";
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
-    console.log(request)
+  const body = await request.json();
   try {
     const origin = request.headers.get("origin");
 
@@ -12,25 +12,31 @@ export async function POST(request) {
       line_items: [
         {
           price_data: {
-            currency: "usd",
+            currency: "bdt",
             product_data: {
-              name: "Pro Membership",
+              name: body.serviceName,
             },
-            unit_amount: 2000, // $20
+            image: body.serviceImage,
+            unit_amount: body.amount * 100,
           },
           quantity: 1,
         },
       ],
-      success_url: `${origin}/dashboard/user/services/success`,
+       customer_email: body.userEmail,
+        metadata: {
+          coustomerName: body.userName,
+          coustomerEmail: body.userEmail,
+          percelId: body.serviceId,
+          percelName: body.serviceName
+        },
+
+      success_url: `${origin}/dashboard/user/services/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/dashboard/user/services/cancel`,
     });
 
-    return NextResponse.json({ id: session.id ,sessionUrl: session.url });
+    return NextResponse.json({ id: session.id, sessionUrl: session.url });
   } catch (err) {
     console.error("Stripe error:", err);
-    return NextResponse.json(
-      { error: err.message },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }

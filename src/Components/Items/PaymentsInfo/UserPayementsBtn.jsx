@@ -1,4 +1,5 @@
 "use client";
+import { useSession } from "next-auth/react";
 // import { loadStripe } from "@stripe/stripe-js";
 import React from "react";
 
@@ -7,11 +8,33 @@ import React from "react";
 // );
 
 const UserPayementsBtn = ({ service }) => {
+  const { data: session } = useSession();
+    const user = session?.user;
+    console.log(service)
   const handlePayment = async () => {
+    const totalAmount = service?.totalDayCost + service?.totalHourCost;
+
+
+
+    const paymentInfo = {
+      userName: user?.name || user?.displayName || "Unknown User",
+      userId: user?.id,
+      userEmail: user?.email,
+      serviceId: service?._id,
+      serviceName: service?.serviceName,
+      amount: totalAmount, 
+      serviceType: service?.serviceType,
+      serviceImage: service?.serviceImage ,
+      serviceStatus : service?.paid,
+    }
     // const stripe = await stripePromise;
 
     const res = await fetch("/api/create-checkout-session", {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(paymentInfo),
     });
 
     const data = await res.json();

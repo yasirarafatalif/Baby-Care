@@ -13,7 +13,7 @@ const UserMenu = ({ user }) => {
   const [open, setOpen] = useState(false);
   const menuRef = useRef(null);
   const { data: session } = useSession();
-  console.log(session)
+
   const isUser = session?.role === "user";
   const isAdmin = session?.role === "admin";
 

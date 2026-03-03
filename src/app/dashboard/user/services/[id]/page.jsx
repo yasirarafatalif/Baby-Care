@@ -1,56 +1,32 @@
-
 import { dbConnect } from "@/lib/bdConnect";
 import { ObjectId } from "mongodb";
 import React from "react";
 import UserServicesDetalisPageLoading from "./loading";
-// import { loadStripe } from "@stripe/stripe-js";
-import UserPayementsBtn from "@/Components/Items/PaymentsInfo/UserPayementsBtn";
 
-// const stripePromise = loadStripe(
-//   process.env.STRIPE_PUBLISHABLE_KEY
-// )
+import UserPayementsBtn from "@/Components/Items/PaymentsInfo/UserPayementsBtn";
 
 const UserSingelServicesPage = async ({ params }) => {
   const { id } = await params;
- 
 
-
-  const service = await dbConnect("services").findOne({ _id: new ObjectId(id) });
+  const service = await dbConnect("services").findOne({
+    _id: new ObjectId(id),
+  });
 
   if (!service) {
     return (
       <div className="min-h-screen flex items-center justify-center text-red-500">
-       <UserServicesDetalisPageLoading />
+        <UserServicesDetalisPageLoading />
       </div>
     );
   }
-   console.log(service)
-   const parseService = JSON.parse(JSON.stringify(service))
 
-  // Payment Handler
-
-
-  // const handlePayment = async () => {
-  //   const stripe = await stripePromise;
-
-  //   const res = await fetch("/api/create-checkout-session", {
-  //     method: "POST",
-  //   });
-
-  //   const data = await res.json();
-
-  //   await stripe.redirectToCheckout({ sessionId: data.id });
-  // };
-
-  
-
+  const parseService = JSON.parse(JSON.stringify(service));
 
   return (
     <div className="min-h-screen px-4 py-10 bg-gray-100 dark:bg-gray-950">
       <div className="max-w-3xl mx-auto">
         {/* Card */}
         <div className="rounded-2xl shadow-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 p-6 space-y-6">
-          
           {/* Header */}
           <div className="flex items-start justify-between">
             <div>
@@ -81,7 +57,10 @@ const UserSingelServicesPage = async ({ params }) => {
             <Info label="Email" value={service.email} />
             <Info label="Per Hour" value={`৳ ${service.perHour}`} />
             <Info label="Per Day" value={`৳ ${service.perDay}`} />
-            <Info label="Total Hour Cost" value={`৳ ${service.totalHourCost}`} />
+            <Info
+              label="Total Hour Cost"
+              value={`৳ ${service.totalHourCost}`}
+            />
             <Info label="Total Day Cost" value={`৳ ${service.totalDayCost}`} />
           </div>
 
@@ -93,19 +72,14 @@ const UserSingelServicesPage = async ({ params }) => {
               </p>
               <p
                 className={`font-semibold ${
-                  service.paid === "paid"
-                    ? "text-green-600"
-                    : "text-red-500"
+                  service.paid === "paid" ? "text-green-600" : "text-red-500"
                 }`}
               >
                 {service.paid}
               </p>
             </div>
-          
 
-          <UserPayementsBtn service={parseService}  />
-
-
+            <UserPayementsBtn service={parseService} />
 
             {/* {
               service.paid === "unpaid" || service.status === "completed"  ? (
@@ -123,8 +97,6 @@ const UserSingelServicesPage = async ({ params }) => {
 
 
             } */}
-
-           
           </div>
 
           {/* Footer */}
@@ -143,8 +115,6 @@ export default UserSingelServicesPage;
 const Info = ({ label, value }) => (
   <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-3">
     <p className="text-gray-500 dark:text-gray-400 text-xs">{label}</p>
-    <p className="font-semibold text-gray-800 dark:text-gray-200">
-      {value}
-    </p>
+    <p className="font-semibold text-gray-800 dark:text-gray-200">{value}</p>
   </div>
 );

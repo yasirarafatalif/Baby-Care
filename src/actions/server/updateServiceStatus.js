@@ -11,10 +11,27 @@ export async function updateServiceStatus(id, status) {
   );
 }
 export async function adminAddserviceStatus(serviceData) {
-  console.log(serviceData)
   await dbConnect("products").insertOne(
     serviceData
   );
 }
+export async function userPayemntsAdd(serviceData) {
+  console.log(serviceData)
+  const existingPayment = await dbConnect("payments").findOne({ sessionId: serviceData.sessionId });
+
+  if (existingPayment) {
+    console.log("Payment with this sessionId already exists. Skipping insertion.");
+    return;
+  }
+
+
+  await dbConnect("payments").insertOne(
+    serviceData
+  );
+}
+
+
+
+
 
 
