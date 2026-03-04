@@ -16,14 +16,21 @@ export async function adminAddserviceStatus(serviceData) {
   );
 }
 export async function userPayemntsAdd(serviceData) {
-  console.log(serviceData)
+  // console.log(serviceData)
+  const email = serviceData.customerEmail;
+  const sessionId = serviceData.sessionId;
   const existingPayment = await dbConnect("payments").findOne({ sessionId: serviceData.sessionId });
-
-  if (existingPayment) {
-    console.log("Payment with this sessionId already exists. Skipping insertion.");
+  const existingPayServices = await dbConnect("services").findOne({ _id: new ObjectId(serviceData.percelId) });
+  // console.log(existingPayServices,"after")
+  if (existingPayServices && existingPayServices.paid === "pending" || existingPayment) {
+    console.log("User has already made a payment. Skipping insertion.");
     return;
   }
-
+  
+   const result = await dbConnect("services").updateOne(
+    { _id: new ObjectId(serviceData.percelId) },
+    { $set: { paid: "paid" } }
+  );
 
   await dbConnect("payments").insertOne(
     serviceData

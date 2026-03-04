@@ -9,12 +9,10 @@ import React from "react";
 
 const UserPayementsBtn = ({ service }) => {
   const { data: session } = useSession();
-    const user = session?.user;
-    console.log(service)
+  const user = session?.user;
+  console.log(service);
   const handlePayment = async () => {
     const totalAmount = service?.totalDayCost + service?.totalHourCost;
-
-
 
     const paymentInfo = {
       userName: user?.name || user?.displayName || "Unknown User",
@@ -22,11 +20,11 @@ const UserPayementsBtn = ({ service }) => {
       userEmail: user?.email,
       serviceId: service?._id,
       serviceName: service?.serviceName,
-      amount: totalAmount, 
+      amount: totalAmount,
       serviceType: service?.serviceType,
-      serviceImage: service?.serviceImage ,
-      serviceStatus : service?.paid,
-    }
+      serviceImage: service?.serviceImage,
+      serviceStatus: service?.paid,
+    };
     // const stripe = await stripePromise;
 
     const res = await fetch("/api/create-checkout-session", {
@@ -42,32 +40,22 @@ const UserPayementsBtn = ({ service }) => {
   };
   return (
     <div>
-      <button
-        onClick={handlePayment}
-        className="px-5 py-2 rounded-xl text-sm font-semibold 
+      {service.paid === "unpaid" || service.status === "completed" ? (
+        <button
+          className="px-5 py-2 rounded-xl text-sm font-semibold 
               bg-blue-600 text-white hover:bg-blue-700 transition"
-      >
-        Pay Now
-      </button>
-
-      {/* {
-              service.paid === "unpaid" || service.status === "completed"  ? (
-                 <button
-                 
-                 className="px-5 py-2 rounded-xl text-sm font-semibold 
+        >
+          Paid
+        </button>
+      ) : (
+        <button
+          onClick={handlePayment}
+          className="px-5 py-2 rounded-xl text-sm font-semibold 
               bg-blue-600 text-white hover:bg-blue-700 transition"
-                 
-              >
-              Pay Now
-            </button>) :  <button 
-            onClick={handlePayment}
-            className="px-5 py-2 rounded-xl text-sm font-semibold 
-              bg-blue-600 text-white hover:bg-blue-700 transition">
-              Paid
-            </button>
-
-
-            } */}
+        >
+          Pay Now
+        </button>
+      )}
     </div>
   );
 };
