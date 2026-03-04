@@ -47,3 +47,10 @@ export const userCompletedServices = async (email) => {
     .toArray(); 
   return services;
 };
+
+
+export const paymentInfo =  async (email)=>{
+  const payments = await dbConnect("services").find({  email , paid:"paid" }).toArray();
+  return payments;
+
+}
