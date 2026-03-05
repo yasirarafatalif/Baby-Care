@@ -8,9 +8,9 @@ import React from "react";
 // );
 
 const UserPayementsBtn = ({ service }) => {
+  console.log(service.paid)
   const { data: session } = useSession();
   const user = session?.user;
-  console.log(service);
   const handlePayment = async () => {
     const totalAmount = service?.totalDayCost + service?.totalHourCost;
 
@@ -40,7 +40,7 @@ const UserPayementsBtn = ({ service }) => {
   };
   return (
     <div>
-      {service.paid === "unpaid" || service.status === "completed" ? (
+      {service.paid === "paid" || service.status === "completed" ? (
         <button
           className="px-5 py-2 rounded-xl text-sm font-semibold 
               bg-blue-600 text-white hover:bg-blue-700 transition"
