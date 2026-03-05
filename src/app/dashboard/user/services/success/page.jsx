@@ -20,6 +20,8 @@ export default function SuccessPage() {
   const sessionId = searchParams.get("session_id");
 
   const [data, setData] = useState(null);
+  // console.log(data);
+
 
   useEffect(() => {
     if (!sessionId) return;
@@ -60,6 +62,20 @@ export default function SuccessPage() {
     style: "currency",
     currency: data.currency,
   }).format(data.amount_total / 100);
+
+  const invoiceData = {
+    _id: data.id,
+    sessionId: data.id,
+    paymentIntentId: data.payment_intent,
+    paymentStatus: data.payment_status,
+    sessionStatus: data.status,
+    amount: data.amount_total,
+    currency: data.currency,
+    customerEmail: data.customer_details?.email,
+    customerName: data.customer_details?.name,
+    percelId: data.metadata?.percelId,
+    percelName: data.metadata?.percelName,
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center p-6">
@@ -115,11 +131,10 @@ export default function SuccessPage() {
               <ArrowRight size={16} />
             </button>
           </div>
-
           <div className="mt-4">
             <PDFDownloadLink
-              document={<InvoicePDF data={data} />}
-              fileName="invoice.pdf"
+              document={<InvoicePDF data={invoiceData} />}
+              fileName={`invoice-${data?.customer_details?.name}.pdf`}
             >
               {({ loading }) => (
                 <button className="w-full bg-emerald-600 text-white py-3 rounded-xl hover:bg-emerald-700 transition">
