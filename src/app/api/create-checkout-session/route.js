@@ -23,6 +23,7 @@ export async function POST(request) {
         },
       ],
        customer_email: body.userEmail,
+      //  coustomerName: body.userName,
         metadata: {
           coustomerName: body.userName,
           coustomerEmail: body.userEmail,

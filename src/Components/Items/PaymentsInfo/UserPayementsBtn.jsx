@@ -8,9 +8,10 @@ import React from "react";
 // );
 
 const UserPayementsBtn = ({ service }) => {
-  console.log(service.paid)
+  
   const { data: session } = useSession();
   const user = session?.user;
+  // console.log(user)
   const handlePayment = async () => {
     const totalAmount = service?.totalDayCost + service?.totalHourCost;
 

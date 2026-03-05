@@ -14,14 +14,17 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { userPayemntsAdd } from "@/actions/server/updateServiceStatus";
 import InvoicePDF from "@/Components/Items/Invoice/InvoicePDF";
+import { useSession } from "next-auth/react";
 
 export default function SuccessPage() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session_id");
+  const { data: session } = useSession();
+    const user = session?.user;
+    const userName = user?.name || user?.displayName || "Unknown User";
+
 
   const [data, setData] = useState(null);
-  // console.log(data);
-
 
   useEffect(() => {
     if (!sessionId) return;
@@ -39,7 +42,7 @@ export default function SuccessPage() {
         amount: result.amount_total,
         currency: result.currency,
         customerEmail: result.customer_email,
-        customerName: result.customer_details?.name,
+        customerName: result.metadata?.customerName,
         percelId: result.metadata?.percelId,
         percelName: result.metadata?.percelName,
       };
@@ -72,7 +75,7 @@ export default function SuccessPage() {
     amount: data.amount_total,
     currency: data.currency,
     customerEmail: data.customer_details?.email,
-    customerName: data.customer_details?.name,
+    customerName: userName,
     percelId: data.metadata?.percelId,
     percelName: data.metadata?.percelName,
   };
@@ -101,7 +104,7 @@ export default function SuccessPage() {
             <DetailRow
               icon={<User size={18} />}
               label="Customer"
-              value={data?.customer_details?.name}
+              value={user?.name || user?.displayName || "Unknown User"}
             />
             <DetailRow
               icon={<Mail size={18} />}
@@ -133,8 +136,8 @@ export default function SuccessPage() {
           </div>
           <div className="mt-4">
             <PDFDownloadLink
-              document={<InvoicePDF data={invoiceData} />}
-              fileName={`invoice-${data?.customer_details?.name}.pdf`}
+              document={<InvoicePDF data={invoiceData}  />}
+              fileName={`invoice-${user?.name || user?.displayName || "unknown"}_Payment.pdf`}
             >
               {({ loading }) => (
                 <button className="w-full bg-emerald-600 text-white py-3 rounded-xl hover:bg-emerald-700 transition">

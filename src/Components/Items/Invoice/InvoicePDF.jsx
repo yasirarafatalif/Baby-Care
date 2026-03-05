@@ -94,7 +94,7 @@ const InvoicePDF = ({ data }) => {
         
         {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.invoiceTitle}>INVOICE</Text>
+          <Text style={styles.invoiceTitle}>CARE.IO INVOICE</Text>
           <View style={styles.headerRight}>
             <Text>Invoice ID: {data?.percelId}</Text>
             <Text>Status: {data?.paymentStatus?.toUpperCase()}</Text>

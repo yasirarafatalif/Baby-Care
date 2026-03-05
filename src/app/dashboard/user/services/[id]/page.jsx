@@ -7,6 +7,7 @@ import UserPayementsBtn from "@/Components/Items/PaymentsInfo/UserPayementsBtn";
 
 const UserSingelServicesPage = async ({ params }) => {
   const { id } = await params;
+  // console.log(id)
 
   const service = await dbConnect("services").findOne({
     _id: new ObjectId(id),
