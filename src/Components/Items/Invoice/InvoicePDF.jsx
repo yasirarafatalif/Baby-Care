@@ -5,83 +5,83 @@ const styles = StyleSheet.create({
   page: {
     padding: 40,
     fontSize: 10,
-    fontFamily: 'Helvetica',
-    color: '#333',
+    fontFamily: "Helvetica",
+    color: "#333",
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginBottom: 40,
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: "#eee",
     paddingBottom: 15,
   },
   invoiceTitle: {
     fontSize: 28,
-    fontWeight: 'bold',
-    color: '#000',
+    fontWeight: "bold",
+    color: "#000",
   },
   headerRight: {
-    textAlign: 'right',
+    textAlign: "right",
   },
   sectionContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginBottom: 30,
   },
   infoBox: {
-    width: '48%',
+    width: "48%",
   },
   sectionLabel: {
     fontSize: 12,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 8,
-    color: '#000',
+    color: "#000",
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: "#f0f0f0",
   },
   textRow: {
     marginBottom: 4,
   },
   bold: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   table: {
     marginTop: 20,
   },
   tableHeader: {
-    flexDirection: 'row',
-    backgroundColor: '#333',
-    color: '#fff',
+    flexDirection: "row",
+    backgroundColor: "#333",
+    color: "#fff",
     padding: 8,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   tableRow: {
-    flexDirection: 'row',
+    flexDirection: "row",
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: "#eee",
     padding: 10,
   },
-  col1: { width: '70%' },
-  col2: { width: '30%', textAlign: 'right' },
+  col1: { width: "70%" },
+  col2: { width: "30%", textAlign: "right" },
   totalSection: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
+    flexDirection: "row",
+    justifyContent: "flex-end",
     marginTop: 25,
   },
   totalAmount: {
     fontSize: 18,
-    fontWeight: 'bold',
-    color: '#000',
+    fontWeight: "bold",
+    color: "#000",
   },
   footer: {
     marginTop: 50,
     borderTopWidth: 1,
-    borderTopColor: '#eee',
+    borderTopColor: "#eee",
     paddingTop: 10,
     fontSize: 8,
-    color: '#888',
-  }
+    color: "#888",
+  },
 });
 
 const InvoicePDF = ({ data }) => {
@@ -91,13 +91,19 @@ const InvoicePDF = ({ data }) => {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        
         {/* Header */}
         <View style={styles.header}>
           <Text style={styles.invoiceTitle}>CARE.IO INVOICE</Text>
           <View style={styles.headerRight}>
             <Text>Invoice ID: {data?.percelId}</Text>
             <Text>Status: {data?.paymentStatus?.toUpperCase()}</Text>
+            {/* <Text>Date: {data?.paidAt.toLocaleString()}</Text> */}
+            <Text>
+              Date:{" "}
+              {data?.paidAt
+                ? new Date(data.paidAt * 1000).toLocaleString()
+                : "N/A"}
+            </Text>
           </View>
         </View>
 
@@ -106,15 +112,27 @@ const InvoicePDF = ({ data }) => {
           {/* Customer Info */}
           <View style={styles.infoBox}>
             <Text style={styles.sectionLabel}>Customer Details</Text>
-            <Text style={styles.textRow}><Text style={styles.bold}>Name: </Text>{data?.customerName}</Text>
-            <Text style={styles.textRow}><Text style={styles.bold}>Email: </Text>{data?.customerEmail}</Text>
+            <Text style={styles.textRow}>
+              <Text style={styles.bold}>Name: </Text>
+              {data?.customerName}
+            </Text>
+            <Text style={styles.textRow}>
+              <Text style={styles.bold}>Email: </Text>
+              {data?.customerEmail}
+            </Text>
           </View>
 
           {/* Parcel Info */}
           <View style={styles.infoBox}>
             <Text style={styles.sectionLabel}>Service Details</Text>
-            <Text style={styles.textRow}><Text style={styles.bold}>Service: </Text>{data?.percelName}</Text>
-            <Text style={styles.textRow}><Text style={styles.bold}>Parcel ID: </Text>{data?.percelId}</Text>
+            <Text style={styles.textRow}>
+              <Text style={styles.bold}>Service: </Text>
+              {data?.percelName}
+            </Text>
+            <Text style={styles.textRow}>
+              <Text style={styles.bold}>Parcel ID: </Text>
+              {data?.percelId}
+            </Text>
           </View>
         </View>
 
@@ -127,17 +145,23 @@ const InvoicePDF = ({ data }) => {
           <View style={styles.tableRow}>
             <View style={styles.col1}>
               <Text style={styles.bold}>{data?.percelName}</Text>
-              <Text style={{ fontSize: 8, marginTop: 2 }}>Payment Intent: {data?.paymentIntentId}</Text>
+              <Text style={{ fontSize: 8, marginTop: 2 }}>
+                Payment Intent: {data?.paymentIntentId}
+              </Text>
             </View>
-            <Text style={styles.col2}>{formattedAmount} {data?.currency?.toUpperCase()}</Text>
+            <Text style={styles.col2}>
+              {formattedAmount} {data?.currency?.toUpperCase()}
+            </Text>
           </View>
         </View>
 
         {/* Total */}
         <View style={styles.totalSection}>
-          <View style={{ textAlign: 'right' }}>
-            <Text style={{ fontSize: 10, color: '#555' }}>Total Paid</Text>
-            <Text style={styles.totalAmount}>{formattedAmount} {data?.currency?.toUpperCase()}</Text>
+          <View style={{ textAlign: "right" }}>
+            <Text style={{ fontSize: 10, color: "#555" }}>Total Paid</Text>
+            <Text style={styles.totalAmount}>
+              {formattedAmount} {data?.currency?.toUpperCase()}
+            </Text>
           </View>
         </View>
 
@@ -146,7 +170,6 @@ const InvoicePDF = ({ data }) => {
           <Text>Session ID: {data?.sessionId}</Text>
           <Text>Session Status: {data?.sessionStatus}</Text>
         </View>
-
       </Page>
     </Document>
   );

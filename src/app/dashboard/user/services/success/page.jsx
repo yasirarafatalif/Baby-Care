@@ -20,11 +20,11 @@ export default function SuccessPage() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session_id");
   const { data: session } = useSession();
-    const user = session?.user;
-    const userName = user?.name || user?.displayName || "Unknown User";
-
+  const user = session?.user;
+  const userName = user?.name || user?.displayName || "Unknown User";
 
   const [data, setData] = useState(null);
+  // console.log(data?.currency);
 
   useEffect(() => {
     if (!sessionId) return;
@@ -48,6 +48,24 @@ export default function SuccessPage() {
       };
 
       await userPayemntsAdd(paymentData);
+      await fetch("/api/send-invoice", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: result.customer_details?.email,
+          name: userName,
+          service: result.metadata?.percelName,
+          amount: result.amount_total,
+          paymentId: result.payment_intent,
+          sessionId: result.id,
+          paidAt: result.created,
+          paymentStatus: result.payment_status,
+          percelId: result.metadata?.percelId,
+          currency: result.currency,
+        }),
+      });
     };
 
     fetchPaymentInfo();
@@ -73,11 +91,12 @@ export default function SuccessPage() {
     paymentStatus: data.payment_status,
     sessionStatus: data.status,
     amount: data.amount_total,
-    currency: data.currency,
+    currency: data?.currency || "BDT",
     customerEmail: data.customer_details?.email,
     customerName: userName,
     percelId: data.metadata?.percelId,
     percelName: data.metadata?.percelName,
+    paidAt: data.created,
   };
 
   return (
@@ -136,7 +155,7 @@ export default function SuccessPage() {
           </div>
           <div className="mt-4">
             <PDFDownloadLink
-              document={<InvoicePDF data={invoiceData}  />}
+              document={<InvoicePDF data={invoiceData} />}
               fileName={`invoice-${user?.name || user?.displayName || "unknown"}_Payment.pdf`}
             >
               {({ loading }) => (
