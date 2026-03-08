@@ -1,5 +1,5 @@
 import {
-  paymentInfo,
+  paymentAmountInfo,
   userCompletedServices,
   userFindServices,
   userPendingServices,
@@ -16,7 +16,7 @@ export default async function UserDashboard() {
   const totalservices = await userFindServices(email);
   const pendingservices = await userPendingServices(email);
   const completedservices = await userCompletedServices(email);
-  const paymentData = await paymentInfo(email);
+  const paymentData = await paymentAmountInfo(email);
  
   
 

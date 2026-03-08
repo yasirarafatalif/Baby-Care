@@ -50,9 +50,14 @@ export const userCompletedServices = async (email) => {
 
 
 
+export const paymentInfo =  async (email)=>{
+  const payments = await dbConnect("services").find({  email , paid:"paid" }).sort({ paidAt: -1 }).toArray();
+  return payments;
+
+}
 
 
-export const paymentInfo = async (email) => {
+export const paymentAmountInfo = async (email) => {
 
   const result = await dbConnect("payments").aggregate([
     {
