@@ -42,8 +42,6 @@ export async function userPayemntsAdd(serviceData) {
 
 
 export async function userfindPayment(paymentData) {
-  console.log(paymentData)
-
   const existingPayment = await dbConnect("payments").findOne({
     sessionId: paymentData.sessionId
   });

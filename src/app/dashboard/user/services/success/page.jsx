@@ -55,9 +55,7 @@ useEffect(() => {
 
     const payment = await userPayemntsAdd(paymentData);
     const existingPayment = await userfindPayment(paymentData);
-    console.log(existingPayment)
-    
-   
+
     // invoice already sent kina check
     if (!existingPayment?.isinvoiceSent && !!existingPayment) {
 

@@ -1,4 +1,5 @@
 import {
+  paymentInfo,
   userCompletedServices,
   userFindServices,
   userPendingServices,
@@ -15,6 +16,9 @@ export default async function UserDashboard() {
   const totalservices = await userFindServices(email);
   const pendingservices = await userPendingServices(email);
   const completedservices = await userCompletedServices(email);
+  const paymentData = await paymentInfo(email);
+ 
+  
 
   return (
     <div className="p-6 space-y-6">
@@ -29,7 +33,7 @@ export default async function UserDashboard() {
         <StatCard title="Total Services" value={totalservices.length} />
         <StatCard title="Completed" value={completedservices.length} />
         <StatCard title="Pending" value={pendingservices.length} />
-        <StatCard title="Total Earnings" value={0} />
+        <StatCard title="Total Earnings" value={`${paymentData} BDT`} />
       </div>
 
       {/* Charts */}

@@ -49,8 +49,25 @@ export const userCompletedServices = async (email) => {
 };
 
 
-export const paymentInfo =  async (email)=>{
-  const payments = await dbConnect("services").find({  email , paid:"paid" }).toArray();
-  return payments;
 
-}
+
+
+export const paymentInfo = async (email) => {
+
+  const result = await dbConnect("payments").aggregate([
+    {
+      $match: {
+        paymentStatus: "paid",
+        customerEmail: email
+      }
+    },
+    {
+      $group: {
+        _id: "$customerEmail",
+        amount: { $sum: "$amount" }
+      }
+    }
+  ]).toArray();
+
+  return result[0]?.amount || 0;
+};
