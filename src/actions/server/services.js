@@ -7,12 +7,12 @@ export const insertServices = async (data) => {
 
   const collection = dbConnect("services");
 
-  const duplicate = await collection.findOne({ email, category });
+  const duplicate = await collection.findOne({ email, status: "Pending", category });
 
   if (duplicate) {
     return {
       success: false,
-      message: "You have already booked a service with this email and category.",
+      message: "You have already booked this service and it's pending. Please wait for it to be processed before booking again.",
     };
   }
 

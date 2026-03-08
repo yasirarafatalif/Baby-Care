@@ -11,7 +11,7 @@ const BookServiceButton = ({ service }) => {
   const dayprice = service.price.per_day || 0;
   const hourprice = service.price.per_hour || 0;
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); 
 
     if (status === "loading") {
       return alert("Session loading, please wait...");
