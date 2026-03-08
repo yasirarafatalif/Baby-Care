@@ -38,3 +38,14 @@ export async function userPayemntsAdd(serviceData) {
 
   await dbConnect("payments").insertOne(serviceData);
 }
+
+
+
+export async function userfindPayment(paymentData) {
+  console.log(paymentData)
+
+  const existingPayment = await dbConnect("payments").findOne({
+    sessionId: paymentData.sessionId
+  });
+  return existingPayment;
+}

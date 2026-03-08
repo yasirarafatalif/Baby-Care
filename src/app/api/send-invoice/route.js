@@ -6,6 +6,7 @@ export async function POST(req) {
   const body = await req.json();
 
   const { email, name, service, amount, paymentId, sessionId,paidAt,paymentStatus,percelId,currency } = body;
+  
 
   const pdfBuffer = await renderToBuffer(
   <InvoicePDF
@@ -50,7 +51,7 @@ export async function POST(req) {
 
           <tr>
             <td style="padding:8px">Amount</td>
-            <td style="padding:8px"><b>${amount}</b></td>
+            <td style="padding:8px"><b>${amount/100}</b></td>
           </tr>
 
           <tr>

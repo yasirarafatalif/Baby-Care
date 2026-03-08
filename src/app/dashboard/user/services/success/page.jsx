@@ -9,10 +9,11 @@ import {
   CreditCard,
 } from "lucide-react";
 import { PDFDownloadLink } from "@react-pdf/renderer";
+import { useRef } from "react";
 
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { userPayemntsAdd } from "@/actions/server/updateServiceStatus";
+import { userfindPayment, userPayemntsAdd } from "@/actions/server/updateServiceStatus";
 import InvoicePDF from "@/Components/Items/Invoice/InvoicePDF";
 import { useSession } from "next-auth/react";
 
@@ -24,30 +25,42 @@ export default function SuccessPage() {
   const userName = user?.name || user?.displayName || "Unknown User";
 
   const [data, setData] = useState(null);
+  const [sent, setSent] = useState(false);
   // console.log(data?.currency);
+  const hasRun = useRef(false);
 
-  useEffect(() => {
-    if (!sessionId) return;
+useEffect(() => {
+  if (!sessionId || hasRun.current) return;
 
-    const fetchPaymentInfo = async () => {
-      const res = await fetch(`/api/checkout-session?session_id=${sessionId}`);
-      const result = await res.json();
-      setData(result);
+  hasRun.current = true;
 
-      const paymentData = {
-        sessionId: result.id,
-        paymentIntentId: result.payment_intent,
-        paymentStatus: result.payment_status,
-        sessionStatus: result.status,
-        amount: result.amount_total,
-        currency: result.currency,
-        customerEmail: result.customer_email,
-        customerName: result.metadata?.customerName,
-        percelId: result.metadata?.percelId,
-        percelName: result.metadata?.percelName,
-      };
+  const fetchPaymentInfo = async () => {
+    const res = await fetch(`/api/checkout-session?session_id=${sessionId}`);
+    const result = await res.json();
+    setData(result);
 
-      await userPayemntsAdd(paymentData);
+    const paymentData = {
+      sessionId: result.id,
+      paymentIntentId: result.payment_intent,
+      paymentStatus: result.payment_status,
+      sessionStatus: result.status,
+      amount: result.amount_total,
+      currency: result.currency,
+      customerEmail: result.customer_email,
+      customerName: result.metadata?.customerName,
+      percelId: result.metadata?.percelId,
+      percelName: result.metadata?.percelName,
+      isinvoiceSent: false,
+    };
+
+    const payment = await userPayemntsAdd(paymentData);
+    const existingPayment = await userfindPayment(paymentData);
+    console.log(existingPayment)
+    
+   
+    // invoice already sent kina check
+    if (!existingPayment?.isinvoiceSent && !!existingPayment) {
+
       await fetch("/api/send-invoice", {
         method: "POST",
         headers: {
@@ -66,10 +79,19 @@ export default function SuccessPage() {
           currency: result.currency,
         }),
       });
-    };
 
-    fetchPaymentInfo();
-  }, [sessionId]);
+      // database update
+      await fetch("/api/update-invoice-status", {
+        method: "POST",
+        body: JSON.stringify({
+          sessionId: result.id,
+        }),
+      });
+    }
+  };
+
+  fetchPaymentInfo();
+}, [sessionId]);
 
   if (!data) {
     return (
@@ -110,7 +132,7 @@ export default function SuccessPage() {
             Your transaction has been completed securely.
           </p>
 
-          <div className="mt-8 text-4xl font-extrabold">{formattedAmount}</div>
+          <div className="mt-8 text-4xl font-extrabold">{data?.to}</div>
         </div>
 
         {/* RIGHT SIDE – Details */}
