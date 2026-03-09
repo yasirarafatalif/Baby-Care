@@ -138,3 +138,30 @@ export const monthlyEarningsData = async (email) => {
 
   return data;
 };
+
+export const userfind= async (email) => {
+  const user = await dbConnect("users").findOne({ email });
+  return user;
+}
+
+
+export const updateUserProfile = async (formData) => {
+
+  const email = formData.get("email");
+  const name = formData.get("name");
+  const phone = formData.get("phone");
+  const location = formData.get("location");
+
+  const result = await dbConnect("users").updateOne(
+    { email: email },
+    {
+      $set: {
+        name: name,
+        phone: phone,
+        location: location,
+      },
+    }
+  );
+
+  return result;
+};

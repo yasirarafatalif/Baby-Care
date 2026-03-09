@@ -1,6 +1,15 @@
+import { userfind } from "@/actions/server/services";
+import PassUpdate from "@/Components/Items/Users/PassUpdate";
+import ProfileUpdateform from "@/Components/Items/Users/ProfileUpdateform";
+import { authOptions } from "@/lib/authOptions";
+import { getServerSession } from "next-auth";
 import React from "react";
 
-const UserSettingsPage = () => {
+const UserSettingsPage = async () => {
+  const session = await getServerSession(authOptions);
+  const email = session?.user?.email;
+  const data = await userfind(email)
+  
   return (
     <div className="max-w-5xl mx-auto p-6 space-y-8">
 
@@ -12,59 +21,13 @@ const UserSettingsPage = () => {
           Profile Information
         </h2>
 
-        <div className="grid md:grid-cols-2 gap-4">
-          <input
-            type="text"
-            placeholder="Full Name"
-            className="border p-3 rounded-lg w-full"
-          />
+        <ProfileUpdateform email={email} />
 
-          <input
-            type="email"
-            placeholder="Email"
-            className="border p-3 rounded-lg w-full"
-          />
-
-          <input
-            type="text"
-            placeholder="Phone Number"
-            className="border p-3 rounded-lg w-full"
-          />
-
-          <input
-            type="text"
-            placeholder="Location"
-            className="border p-3 rounded-lg w-full"
-          />
-        </div>
-
-        <button className="bg-emerald-600 text-white px-6 py-2 rounded-lg hover:bg-emerald-700">
-          Update Profile
-        </button>
+     
       </div>
 
       {/* Password Change */}
-      <div className="bg-white shadow rounded-2xl p-6 space-y-4">
-        <h2 className="text-xl font-semibold text-gray-700">
-          Change Password
-        </h2>
-
-        <input
-          type="password"
-          placeholder="Current Password"
-          className="border p-3 rounded-lg w-full"
-        />
-
-        <input
-          type="password"
-          placeholder="New Password"
-          className="border p-3 rounded-lg w-full"
-        />
-
-        <button className="bg-gray-900 text-white px-6 py-2 rounded-lg hover:bg-gray-800">
-          Update Password
-        </button>
-      </div>
+     <PassUpdate />
 
       {/* Notification */}
       <div className="bg-white shadow rounded-2xl p-6">
