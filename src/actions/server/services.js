@@ -86,3 +86,55 @@ export const userLatestServices = async (email) => {
     .toArray(); 
   return latestServices;
 };
+
+
+export const monthlyServicesData = async (email) => {
+
+  const services = await dbConnect("services")
+    .aggregate([
+      {
+        $match: { email }
+      },
+      {
+        $group: {
+          _id: { $month: "$createdAt" },
+          services: { $sum: 1 }
+        }
+      },
+      {
+        $sort: { _id: 1 }
+      }
+    ])
+    .toArray();
+
+  return services;
+};
+
+export const monthlyEarningsData = async (email) => {
+
+  const data = await dbConnect("services")
+    .aggregate([
+      {
+        $match: {
+          email: email,
+          paid: "paid"
+        }
+      },
+      {
+        $group: {
+          _id: { $month: "$createdAt" },
+          earnings: {
+            $sum: {
+              $add: ["$totalDayCost", "$totalHourCost"]
+            }
+          }
+        }
+      },
+      {
+        $sort: { _id: 1 }
+      }
+    ])
+    .toArray();
+
+  return data;
+};
