@@ -37,7 +37,7 @@ export const userFindServices = async (email) => {
 };
 export const userPendingServices = async (email) => {
   const services = await dbConnect("services")
-    .find({ email, status: "pending" })
+    .find({ email, status: "Pending" })
     .toArray(); 
   return services;
 };
@@ -75,4 +75,14 @@ export const paymentAmountInfo = async (email) => {
   ]).toArray();
 
   return result[0]?.amount || 0;
+};
+
+// latest services for user dashboard
+export const userLatestServices = async (email) => {
+  const latestServices = await dbConnect("services")
+    .find({ email })
+    .sort({ createdAt: -1 })
+    .limit(3)
+    .toArray(); 
+  return latestServices;
 };
