@@ -4,10 +4,11 @@ import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FaUserCircle, FaTachometerAlt } from "react-icons/fa";
-import ThemeToggle from "../ui/ThemeToggle";
-import LogOutButton from "./LogOutButton";
+
 import { useSession } from "next-auth/react";
 import { MdDashboard } from "react-icons/md";
+import ThemeToggle from "@/Components/ui/ThemeToggle";
+import LogOutButton from "../LogOutButton";
 
 const UserMenu = ({ user }) => {
   const [open, setOpen] = useState(false);
@@ -74,7 +75,7 @@ const UserMenu = ({ user }) => {
             <ThemeToggle />
 
             <Link
-              href="/profile"
+              href="/dashboard/user/settings"
               onClick={() => setOpen(false)}
               className="flex items-center gap-3 px-4 py-2 text-sm hover:bg-blue-50 dark:hover:bg-gray-800 rounded-lg transition"
             >

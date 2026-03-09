@@ -27,13 +27,7 @@ export default function AdminMenu() {
         </div>
 
         <div className="p-2 space-y-1">
-          <Link
-            href="/dashboard/admin/profile"
-            className="flex items-center gap-3 px-3 py-2 text-sm text-gray-300 hover:bg-blue-600 hover:text-white rounded-lg transition-colors"
-          >
-            <User size={16} />
-            <span>My Profile</span>
-          </Link>
+          
 
          {
             session?.role === "admin" && (

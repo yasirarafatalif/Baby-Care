@@ -27,7 +27,7 @@ export async function PATCH(req) {
         },
       }
     );
-    console.log(result)
+    
 
     return NextResponse.json({
       success: true,

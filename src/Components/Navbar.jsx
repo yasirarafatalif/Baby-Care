@@ -15,13 +15,14 @@ import LogOutButton from "./Items/LogOutButton";
 import { FaRegCircleUser } from "react-icons/fa6";
 import LogIn from "./Items/LogIn";
 import Image from "next/image";
-import UserMenu from "./Items/UserMenu";
+
 import { useSession } from "next-auth/react";
+import UserMenu from "./Items/Users/UserMenu";
 
 const Navbar = () => {
   const { data: session } = useSession();
   const user = session?.user;
-  console.log(user)
+  console.log(user);
 
   const navLinks = [
     { name: "Home", href: "/", icon: <FaHome /> },
