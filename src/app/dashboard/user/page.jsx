@@ -24,10 +24,7 @@ export default async function UserDashboard() {
   const userLatestService = await userLatestServices(email);
   const monthlyDataa = await monthlyServicesData(email);
   const monthlyD = await monthlyEarningsData(email);
-  console.log(monthlyD)
   
-  
- 
   const monthlyData = [
   { month: "Jan", services: 4 },
   { month: "Feb", services: 7 },
@@ -89,11 +86,11 @@ export default async function UserDashboard() {
         
         <div className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
           <h3 className="font-semibold text-lg mb-3">📊 Monthly Services</h3>
-           <MonthlyServicesChart data={monthlyData} />
+           {/* <MonthlyServicesChart data={monthlyData} /> */}
 
-          {/* <div className="h-40 flex items-center justify-center text-gray-400">
+          <div className="h-40 flex items-center justify-center text-gray-400">
             Chart Coming Soon
-          </div> */}
+          </div>
         </div>
         
 

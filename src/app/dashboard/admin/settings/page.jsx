@@ -1,41 +1,58 @@
+import { userfind } from '@/actions/server/services';
+import PassUpdate from '@/Components/Items/Users/PassUpdate';
+import ProfileUpdateform from '@/Components/Items/Users/ProfileUpdateform';
+import { authOptions } from '@/lib/authOptions';
+import { getServerSession } from 'next-auth';
 import React from 'react';
 
-const SettingsPage = () => {
+const SettingsPage = async () => {
+  const session = await getServerSession(authOptions);
+  const email = session?.user?.email;
+  const data = await userfind(email)
+  
   return (
-    <div className="p-8 bg-gray-50 min-h-screen">
-      <h1 className="text-2xl font-bold mb-6">Admin Settings</h1>
-      
-      <div className="bg-white rounded-lg shadow p-6 max-w-4xl">
-        {/* Profile Section */}
-        <section className="mb-8">
-          <h2 className="text-lg font-semibold mb-4 border-b pb-2">Public Profile</h2>
-          <div className="grid grid-cols-1 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Display Name</label>
-              <input type="text" className="mt-1 block w-full border rounded-md p-2" placeholder="Admin Name" />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Email Address</label>
-              <input type="email" className="mt-1 block w-full border rounded-md p-2" placeholder="admin@example.com" />
-            </div>
-          </div>
-        </section>
+    <div className="max-w-5xl mx-auto p-6 space-y-8">
 
-        {/* Preferences Section */}
-        <section className="mb-8">
-          <h2 className="text-lg font-semibold mb-4 border-b pb-2">Preferences</h2>
-          <div className="flex items-center justify-between">
-            <span>Email Notifications</span>
-            <input type="checkbox" className="w-5 h-5" />
-          </div>
-        </section>
+      <h1 className="text-3xl font-bold text-gray-800">User Settings</h1>
 
-        <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
-          Save Changes
+      {/* Profile Info */}
+      <div className="bg-white shadow rounded-2xl p-6 space-y-4">
+        <h2 className="text-xl font-semibold text-gray-700">
+          Profile Information
+        </h2>
+
+        <ProfileUpdateform email={email} />
+
+     
+      </div>
+
+      {/* Password Change */}
+     <PassUpdate />
+
+      {/* Notification */}
+      <div className="bg-white shadow rounded-2xl p-6">
+        <h2 className="text-xl font-semibold text-gray-700 mb-4">
+          Notifications
+        </h2>
+
+        <label className="flex items-center gap-3">
+          <input type="checkbox" />
+          Email Notifications
+        </label>
+      </div>
+
+      {/* Danger Zone */}
+      <div className="bg-red-50 border border-red-200 rounded-2xl p-6">
+        <h2 className="text-xl font-semibold text-red-600 mb-3">
+          Danger Zone
+        </h2>
+
+        <button className="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700">
+          Delete Account
         </button>
       </div>
+
     </div>
   );
 };
-
 export default SettingsPage;

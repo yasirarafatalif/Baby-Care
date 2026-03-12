@@ -74,14 +74,29 @@ const UserMenu = ({ user }) => {
           <div className="p-1 space-y-1">
             <ThemeToggle />
 
-            <Link
-              href="/dashboard/user/settings"
+            {
+              isUser && (
+                <Link
+                href="/dashboard/user/settings"
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-3 px-4 py-2 text-sm hover:bg-blue-50 dark:hover:bg-gray-800 rounded-lg transition"
+              >
+                <FaUserCircle className="text-purple-500" />
+                Profile
+              </Link>
+              )
+            }
+
+            {isAdmin && (
+              <Link
+              href="/dashboard/admin/settings"
               onClick={() => setOpen(false)}
               className="flex items-center gap-3 px-4 py-2 text-sm hover:bg-blue-50 dark:hover:bg-gray-800 rounded-lg transition"
             >
               <FaUserCircle className="text-purple-500" />
               Profile
             </Link>
+            )}
             {isAdmin && (
               <Link
                 href="/dashboard/admin"
