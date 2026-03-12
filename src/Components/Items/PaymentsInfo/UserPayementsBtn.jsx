@@ -25,6 +25,7 @@ const UserPayementsBtn = ({ service }) => {
       serviceType: service?.serviceType,
       serviceImage: service?.serviceImage,
       serviceStatus: service?.paid,
+      paymentDate: new Date().toISOString(),
     };
     // const stripe = await stripePromise;
 

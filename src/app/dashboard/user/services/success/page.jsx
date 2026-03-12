@@ -51,6 +51,7 @@ useEffect(() => {
       percelId: result.metadata?.percelId,
       percelName: result.metadata?.percelName,
       isinvoiceSent: false,
+      paymentDate: new Date().toISOString(),
     };
 
     const payment = await userPayemntsAdd(paymentData);
