@@ -4,6 +4,7 @@ import { insertServices } from "@/actions/server/services";
 import { useSession } from "next-auth/react";
 import React, { useRef } from "react";
 import toast from "react-hot-toast";
+import Swal from "sweetalert2";
 
 const BookServiceButton = ({ service }) => {
   const bookAssign = useRef(null);
@@ -11,17 +12,25 @@ const BookServiceButton = ({ service }) => {
   const dayprice = service.price.per_day || 0;
   const hourprice = service.price.per_hour || 0;
   const handleSubmit = async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
 
     if (status === "loading") {
-      return alert("Session loading, please wait...");
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Checking authentication status. Please wait.",
+      });
     }
 
     const email = sessionData?.user?.email;
     const username = sessionData?.user?.name;
 
     if (!email) {
-      return alert("User not logged in");
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "User not logged in",
+      });
     }
 
     const form = e.target;
@@ -43,16 +52,26 @@ const BookServiceButton = ({ service }) => {
       submitDate: new Date().toISOString(),
       email,
       username,
-      serviceId: service._id.toString(), 
+      serviceId: service._id.toString(),
       serviceName: service.name,
       category: service.category,
     };
 
     const res = await insertServices(bookingData);
     if (res.success === true) {
-      toast.success("Service booked successfully!");
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Service booked successfully",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     } else {
-      toast.error(res.message || "Failed to book service. Please try again.");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: res.message || "Failed to book service. Please try again.",
+      });
     }
 
     bookAssign.current.close();

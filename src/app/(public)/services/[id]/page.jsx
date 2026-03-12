@@ -24,7 +24,7 @@ const ServicesSingelPages = async ({ params }) => {
   
 const serializedService = {
   ...service,
-  _id: service?._id.toString(), 
+  _id: service?._id.toString(),
 
 };
 

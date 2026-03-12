@@ -3,11 +3,12 @@
 import { dbConnect } from "@/lib/bdConnect";
 
 export const insertServices = async (data) => {
-  const { email, category } = data;
+  const { email,serviceName} = data;
+ 
 
   const collection = dbConnect("services");
 
-  const duplicate = await collection.findOne({ email, status: "Pending", category });
+  const duplicate = await collection.findOne({ email, status: "Pending", serviceName });
 
   if (duplicate) {
     return {
