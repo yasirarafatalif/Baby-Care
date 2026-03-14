@@ -14,14 +14,14 @@ const AboutPage = () => {
 
             <div className="md:w-2/3">
               <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-6 leading-tight">
-                মানুষের সেবায়, <br /> হৃদয়ের মমতায়{" "}
-                <span className="text-blue-200">Care.IO</span>
+                Caring for People with <br />
+                Love & Compassion at <span className="text-blue-200">Care.IO</span>
               </h1>
 
               <p className="text-blue-100 text-lg md:text-xl leading-relaxed max-w-2xl">
-                আমাদের মূল লক্ষ্য হলো আপনার প্রিয়জনদের জন্য একটি নিরাপদ
-                এবং নির্ভরযোগ্য যত্ন নিশ্চিত করা। প্রযুক্তির মাধ্যমে আমরা
-                কেয়ারগিভিং সার্ভিসকে করেছি আরও সহজ, দ্রুত এবং বিশ্বাসযোগ্য।
+                Our mission is to ensure safe and reliable care for your loved
+                ones. Through technology, we make caregiving services easier,
+                faster, and more trustworthy for every family.
               </p>
             </div>
 
@@ -37,18 +37,16 @@ const AboutPage = () => {
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-20 text-center">
           {[
-            { label: "সফল প্রজেক্ট", value: "৫০০+", color: "text-blue-600" },
-            { label: "খুশি গ্রাহক", value: "১০হাজার+", color: "text-green-600" },
-            { label: "দক্ষ কেয়ারগিভার", value: "১৫০+", color: "text-purple-600" },
-            { label: "সেবা এলাকা", value: "১২+", color: "text-orange-600" },
+            { label: "Successful Services", value: "500+", color: "text-blue-600" },
+            { label: "Happy Families", value: "10K+", color: "text-green-600" },
+            { label: "Professional Caregivers", value: "150+", color: "text-purple-600" },
+            { label: "Service Areas", value: "12+", color: "text-orange-600" },
           ].map((stat, index) => (
             <div
               key={index}
               className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md transition"
             >
-              <span
-                className={`block text-3xl font-bold ${stat.color} mb-1`}
-              >
+              <span className={`block text-3xl font-bold ${stat.color} mb-1`}>
                 {stat.value}
               </span>
 
@@ -59,18 +57,18 @@ const AboutPage = () => {
           ))}
         </div>
 
-        {/* Vision */}
+        {/* Mission */}
         <div className="grid md:grid-cols-2 gap-12 items-center mb-20">
 
           <div className="space-y-6">
             <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
-              আমাদের লক্ষ্য ও উদ্দেশ্য
+              Our Mission & Vision
             </h2>
 
             <p className="text-gray-600 dark:text-gray-400 text-lg leading-relaxed">
-              Care.IO শুধুমাত্র একটি প্ল্যাটফর্ম নয়, এটি একটি আস্থার নাম।
-              আমরা বিশ্বাস করি প্রতিটি শিশুর সঠিক বিকাশ এবং প্রতিটি
-              বয়োজ্যেষ্ঠ ব্যক্তির সম্মানজনক ও যত্নশীল জীবন প্রাপ্য।
+              Care.IO is not just a platform, it is a promise of trust. We
+              believe every child deserves proper care and every elderly person
+              deserves dignity and compassionate support in their daily life.
             </p>
 
             <div className="space-y-4">
@@ -82,11 +80,12 @@ const AboutPage = () => {
 
                 <div>
                   <h4 className="font-bold text-gray-800 dark:text-white">
-                    শতভাগ নিরাপত্তা
+                    Verified & Trusted Caregivers
                   </h4>
 
                   <p className="text-gray-500 dark:text-gray-400">
-                    আমাদের প্রত্যেক কেয়ারগিভার ভেরিফাইড এবং অভিজ্ঞ।
+                    Every caregiver on our platform is verified and trained to
+                    ensure safety and reliability.
                   </p>
                 </div>
               </div>
@@ -98,11 +97,12 @@ const AboutPage = () => {
 
                 <div>
                   <h4 className="font-bold text-gray-800 dark:text-white">
-                    ২৪/৭ কাস্টমার সাপোর্ট
+                    24/7 Customer Support
                   </h4>
 
                   <p className="text-gray-500 dark:text-gray-400">
-                    যেকোনো প্রয়োজনে আমরা আছি আপনার পাশে সবসময়।
+                    Our support team is always ready to help whenever you need
+                    assistance.
                   </p>
                 </div>
               </div>
@@ -113,7 +113,7 @@ const AboutPage = () => {
           <div className="bg-white dark:bg-gray-800 p-2 rounded-3xl shadow-xl rotate-2">
             <img
               src="https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf"
-              alt="Caregiving"
+              alt="Care Service"
               className="rounded-2xl w-full h-80 object-cover"
             />
           </div>
@@ -124,22 +124,22 @@ const AboutPage = () => {
         <div className="text-center bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-10 rounded-3xl">
 
           <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
-            আমাদের সাথে যুক্ত হতে চান?
+            Want to Get Started with Care.IO?
           </h3>
 
           <p className="text-gray-500 dark:text-gray-400 mb-8 max-w-xl mx-auto">
-            আপনার পরিবারের জন্য সেরা কেয়ারগিভার খুঁজে নিতে আজই আমাদের
-            সার্ভিসগুলো দেখুন।
+            Explore our caregiving services and find trusted caregivers for
+            your loved ones today.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
 
             <button className="px-8 py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 hover:shadow-lg transition">
-              সার্ভিসগুলো দেখুন
+              Explore Services
             </button>
 
             <button className="px-8 py-3 bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 border border-blue-600 dark:border-blue-400 font-semibold rounded-xl hover:bg-blue-50 dark:hover:bg-gray-600 transition">
-              যোগাযোগ করুন
+              Contact Us
             </button>
 
           </div>
