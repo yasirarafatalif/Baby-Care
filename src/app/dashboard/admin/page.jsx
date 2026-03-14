@@ -17,7 +17,7 @@ export default  async function AdminDashboard() {
     const payments  = await adminpaymentAmountInfo()
     // console.log(payments)
     const allservices = await adminFindAllServices();
-    console.log(allservices)
+   
     
   return (
     <div className="p-6 space-y-6">
