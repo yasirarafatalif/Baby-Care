@@ -166,3 +166,35 @@ export const updateUserProfile = async (formData) => {
 
   return result;
 };
+
+// admin secarch payemnts info 
+
+export const adminpaymentAmountInfo = async () => {
+
+  const result = await dbConnect("payments").aggregate([
+    {
+      $match: {
+        paymentStatus: "paid",
+        
+      }
+    },
+    {
+      $group: {
+        _id: null,
+        amount: { $sum: "$amount" }
+      }
+    }
+  ]).toArray();
+  console.log(result)
+
+  return result[0]?.amount || 0;
+};
+
+export const adminFindAllServices = async () => {
+  const services = await dbConnect("services")
+    .find()
+    .sort({ createdAt: -1 })
+    .limit(5)
+    .toArray(); 
+  return services;
+}

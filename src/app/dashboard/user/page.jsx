@@ -18,6 +18,7 @@ export default async function UserDashboard() {
   const email = session?.user?.email;
 
   const totalservices = await userFindServices(email);
+  
   const pendingservices = await userPendingServices(email);
   const completedservices = await userCompletedServices(email);
   const paymentData = await paymentAmountInfo(email);
