@@ -1,6 +1,6 @@
 # Care.io
 
-### Baby Sitting & Elderly Care Service Platform
+### Baby Sitting & Elderly Care Service 
 
 A modern caregiving service platform where users can easily book trusted caretakers for **children, elderly people, and sick family members.**
 
